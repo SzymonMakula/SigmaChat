@@ -1,0 +1,171 @@
+.fa-primary{
+    color: deeppink;
+}
+.fa-secondary{
+    color: darkmagenta;
+}
+.fa-primary, .fa-secondary {
+    transition: var(--transition-speed);
+}
+
+
+.navbar{
+    transition: 300ms ease;
+    padding: 0;
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 10%;
+    background: steelblue;
+
+}
+.navbar h2 {
+    font-family: Sanchez;
+    text-align: left;
+    margin-top: 1%;
+    color: white;
+    width: 100%;
+}
+.navbar > .navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.nav-item{
+    width: 6rem;
+    height: 100%;
+}
+.create-room-button{
+    color: white;
+    background-color: steelblue;
+    border-radius: 2.25rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    transition: 300ms ease;
+    border: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 5%;
+    margin-right: 5%;
+
+}
+.create-room-button svg{
+    width: 2.5rem;
+}
+.create-room-button:hover {
+    background-color: white;
+    color: steelblue;
+    border: 0.2rem steelblue solid;
+}
+
+
+
+.nav-item button{
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: white;
+    padding: 0;
+    border: none;
+    background: inherit;
+}
+
+
+.nav-item button:focus{
+    color: white;
+}
+
+
+.nav-link svg {
+    width: 2rem;
+    min-width: 2rem;
+    margin: 0 1.5rem;
+}
+
+
+/* large screens*/
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+    .navbar{
+        padding: 0;
+        position: relative;
+        height: 100%;
+        transition: var(--transition-speed) ease;
+        min-width: 5rem;
+        max-width: 20rem;
+        width: 5rem;
+    }
+    .navbar:hover{
+        min-width: 20rem;
+    }
+    .navbar > .navbar-nav{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-item:last-child{
+        margin-top: auto;
+    }
+
+    .nav-item{
+        height: 5rem;
+        width: 100%;
+    }
+
+    .nav-link{
+        display: flex;
+        align-items: center;
+
+        height: 5rem;
+        width: 100%;
+
+    }
+
+    .nav-item button{
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        transition: var(--transition-speed) ease;
+        height: 100%;
+        width: 100%;
+
+    }
+    .nav-item .link-text{
+        display: block;
+        width: 100%;
+        transition:  opacity var(--transition-speed) ease-out 300ms, width var(--transition-speed) ease-out;
+        font-size: 1rem;
+        opacity: 0;
+        filter: opacity(0%);
+    }
+
+    .navbar:hover .link-text{
+        opacity: 1;
+        filter: opacity(100%);
+    }
+
+    .nav-link svg{
+        min-height: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+        width: 2rem;
+        margin: 0 1.5rem
+    }
+
+
+
+
+
+
+}
+
+

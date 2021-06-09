@@ -1,0 +1,68 @@
+:root {
+    font-size: 16px;
+    --text-primary: #b6b6b6;
+    --text-secondary: #ececec;
+    --bg-primary: #23232e;
+    --bg-secondary: #141418;
+    --icon: #FF1493FF;
+    --transition-speed: 300ms;
+
+}
+html, body, #root, .overlay
+{
+    height: 100%;width: 100%
+}
+
+
+body {
+    color: black;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+
+}
+
+.main{
+    transition: 900ms ease;
+    background-color: cornsilk;
+    overflow: scroll;
+    display: flex;
+    flex-grow: 1;
+}
+
+.overlay{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+}
+.socialbar{
+    display: none;
+}
+
+
+
+/* large screens*/
+@media only screen and (min-width: 600px) and (min-height: 400px)  {
+    .main{
+        margin:  0;
+        justify-content: center;
+    }
+    .overlay{
+        overflow:hidden;
+        flex-direction: row;
+        justify-content: flex-start;
+        display: flex;
+        flex:1;
+        background-size: 100%;
+    }
+    .socialbar{
+        display: inline-block;
+    }
+}
+
+
+
+
+

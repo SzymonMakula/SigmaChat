@@ -1,0 +1,74 @@
+.main-column{
+    font-family: Sanchez;
+    display: flex;
+    flex-direction: column;
+    flex:1;
+}
+.main-column Form{
+    width: 100%;
+    height: 9rem;
+}
+.main-column > span{
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    align-items: center;
+    text-align: center;
+
+}
+.room-info-row{
+    align-self: center;
+    width: 90%
+}
+.room-info-row input{
+    margin-top:2rem;
+}
+
+.logo-picker{
+    margin-top: 2rem;
+    align-items: flex-start;
+    display: flex;
+    width: 100%;
+    height: 40%;
+}
+.logo-picker button{
+    background: inherit;
+    margin-top: 3rem;
+    border: none;
+    width: 3rem;
+    height: 3rem;
+}
+
+
+
+
+.logo-picker button:first-child{
+    margin-left: 15%;
+}
+.logo-picker button:last-child{
+    margin-right: 15%;
+}
+
+.current-logo{
+    display: flex;
+    align-items: center;
+    margin: 0 1.5rem 0 1.5rem;
+    height: 10rem;
+    flex: 1;
+}
+
+
+@keyframes swipe-right{
+    40% {
+        opacity: 0;
+        transform: translateX(4rem);
+    }
+
+}
+@keyframes swipe-left{
+    40% {
+        opacity: 0;
+        transform: translateX(-4rem);
+    }
+
+}
+

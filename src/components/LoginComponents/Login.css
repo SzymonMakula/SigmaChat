@@ -1,0 +1,206 @@
+.register-link{
+    margin-top: auto;
+    margin-bottom: 1rem;
+}
+
+.register-link > a{
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    font-size: 0.9rem;
+}
+
+.login-container{
+    overflow: scroll;
+    height: 100%;
+    width: 100%;
+    font-family: Sanchez;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card.card{
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+.login-image{
+    margin-bottom: 5%;
+    margin-top: 10%;
+    height: 25%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+.login-image > svg {
+    width: 10rem;
+    height: 10rem;
+}
+
+.login-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.register-header:first-child{
+    margin-top: 0;
+}
+.login-body h2 {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.login-body .form-control {
+    width: 20rem;
+    background-color: lightgray;
+    height: 3rem;
+    border-radius: 3rem;
+    margin-bottom: 1rem;
+}
+
+.login-body button {
+    margin-bottom: 5%;
+    width: 20rem;
+    align-self: center;
+    background-color: limegreen;
+    margin-top: 1rem;
+    border-radius: 3rem;
+    height: 3rem;
+    color: white;
+    border-color: limegreen;
+    transition: 800ms ease;
+}
+
+.login-body button:hover, .login-body button:active, .login-body button:focus {
+    text-decoration: none;
+    background-color: white;
+    color: limegreen;
+    border-color: limegreen;
+}
+
+.login-link {
+    margin-top: auto;
+    margin-bottom: 1rem;
+}
+
+.login-link > a{
+    text-decoration: none;
+    color: black;
+}
+
+
+
+@keyframes shake {
+    from {
+        transform: rotateZ(0deg);
+    }
+    to {
+        transform: rotateZ(360deg);
+    }
+
+}
+
+
+
+
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+
+
+    .login-container {
+        background-image: url("index.jpg");
+        background-size: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .login-card.card {
+        flex: none;
+        overflow: hidden;
+        display: flex;
+        border-radius: 3rem;
+        flex-direction: row;
+        border: none;
+        height: 40rem;
+        width: 60rem;
+    }
+
+    .login-image {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+        height: 100%;
+        width: 50%;
+    }
+
+
+    .login-body {
+        height: 100%;
+        margin-right: 5rem;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .register-header:first-child{
+        margin-top: 7rem;
+    }
+
+    .login-body h2 {
+        margin: 10rem 2rem 3rem 0;
+        text-align: center;
+    }
+
+    .login-body .form-control {
+        width: 20rem;
+        background-color: lightgray;
+        height: 3rem;
+        border-radius: 3rem;
+        margin-bottom: 1rem;
+    }
+
+
+    .login-body button {
+        margin-right: 2rem;
+        margin-top: 2rem;
+        border-radius: 3rem;
+        height: 3rem;
+    }
+
+
+    .login-link {
+        margin-top: 8rem;
+        margin-right: 2rem;
+    }
+
+    .login-card .alert{
+        margin-right: 1rem;
+        margin-left: 0.5rem;
+    }
+    .register-link{
+        margin-top: auto;
+        margin-right: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .register-link > a{
+        margin-top: auto;
+        text-decoration: none;
+        color: black;
+    }
+
+}
+
