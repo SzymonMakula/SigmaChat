@@ -86,7 +86,7 @@ export default function EditProfile(){
 
 
     return(
-            <div className="edit-profile-container">
+            <div className="column-container">
                 <div className="nav-tab">
                     <button onClick={()=> history.push("/")}>
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
@@ -108,7 +108,7 @@ export default function EditProfile(){
                         </div>
                         <div className="edit-name-frame">
                                 <Form.Group id="text">
-                                    <input className="editable-input" type="text" onChange={event => handleButtonHighlight(event)} ref={nameRef} defaultValue={userName} required/>
+                                    <input className="editable-input" type="text" onChange={event => handleButtonHighlight(event)} ref={nameRef} defaultValue={userName} minLength={"4"} maxLength={"16"} required/>
                                 </Form.Group>
                         </div>
                     </div>

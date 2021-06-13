@@ -1,0 +1,60 @@
+.searchbox{
+    overflow: scroll;
+    flex: 1;
+    font-family: Sanchez;
+}
+
+.searchbox-title-row{
+    width: 100%;
+    font-size: 1.5rem;;
+    height: 8%;
+    border-top: 0.1rem black solid;
+    background: linear-gradient(90deg,steelblue, lightsteelblue);
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.room-info-box{
+    background-color: whitesmoke;
+    border: 0.05rem black solid;
+    display: flex;
+    text-align: left;
+    flex-direction: row;
+    width: 100%;
+    padding: 0;
+    transition:  700ms ease;
+    height: 4rem;
+}
+.chatroom-name-box{
+    display: flex;
+    align-items: center;
+    margin-left: 0.5rem;
+    font-size: 1.1rem;
+    height: 100%;
+    width: 30%;
+}
+.chatroom-desc-box{
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    font-size: 0.7rem;
+    height: 100%;
+    width: 55%;
+}
+.chatroom-logo-box{
+    width: 15%;
+    height: 100%;
+}
+.chatroom-logo-box img{
+    margin-left: 0.5rem;
+    width: 80%;
+    height: 100%;
+}
+
+.room-info-box:hover{
+    background-color: lightcyan;
+}
+

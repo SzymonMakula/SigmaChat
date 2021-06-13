@@ -5,6 +5,8 @@ import {BrowserRouter as Router, useRouteMatch, Link} from "react-router-dom";
 import Navbar from "./Navbars/Navbar";
 import editProfile from "./profileComponents/EditProfile";
 import SearchRooms from "./chatComponents/SearchRooms";
+import PrivateRoute from "./LoginComponents/PrivateRoute";
+import HostRoom from "./chatComponents/HostRoom";
 
 const DashContext = React.createContext()
 

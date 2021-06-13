@@ -1,4 +1,4 @@
-.edit-profile-container{
+.column-container{
     height: 100%;
     flex: 1;
     width: 100%;
@@ -8,7 +8,7 @@
     background-color: whitesmoke;
     justify-content: flex-start;
 }
-.edit-profile-container .nav-tab{
+.column-container .nav-tab{
     background-color: steelblue;
     color: white;
     height: 10%;
@@ -16,14 +16,14 @@
     display: flex;
     align-items: center;
 }
-.edit-profile-container .nav-tab button svg{
+.column-container .nav-tab button svg{
     align-self: center;
     width: 50%;
     margin-left: 15%;
     height: 50%;
 }
 
-.edit-profile-container .nav-tab button{
+.column-container .nav-tab button{
     display: flex;
     align-self: center;
     color: white;
@@ -32,7 +32,7 @@
     width: 25%;
     height: 100%;
 }
-.edit-profile-container .nav-tab h2{
+.column-container .nav-tab h2{
     margin-top: 2%;
     width: 100%;
     text-align: left;
@@ -55,7 +55,7 @@
     display: flex;
     flex-direction: column;
 }
-.edit-profile-container Form{
+.column-container > Form{
     display: flex;
     flex-direction: column;
 }
@@ -125,7 +125,7 @@
     filter: grayscale(0%);
     border-bottom: 0.2rem steelblue solid;
 }
-.edit-profile-container form button {
+.column-container > form button {
     margin-top: 15%;
     border: none;
     transition: 70ms ease;
@@ -171,7 +171,7 @@
     color: steelblue;
 
 }
-.edit-profile-container .alert{
+.column-container .alert{
     display: flex;
     position: relative;
     align-self: center;
@@ -185,7 +185,7 @@
 
 /*Reused css classes from login components for styling change-email and change-password tabs.*/
 
-.edit-profile-container > svg{
+.column-container > svg{
     margin-top: 15%;
     margin-bottom: 5%;
     width: 40%;
@@ -193,12 +193,12 @@
     color: steelblue;
     align-self: center;
 }
-.edit-profile-container .login-body{
+.column-container .login-body{
     flex-direction: column;
     margin-top: 15%;
     height: 100%;
 }
-.edit-profile-container .login-body button{
+.column-container .login-body button{
     height: 8%;
     margin-top: 2%;
     margin-bottom: 5%;

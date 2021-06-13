@@ -11,6 +11,7 @@ import ChangeProfileEmail from "./profileComponents/ChangeProfileEmail";
 import ChangeProfilePassword from "./profileComponents/ChangeProfilePassword";
 import HostRoom from "./chatComponents/HostRoom";
 import React from "react";
+import ChatRoom from "./chatComponents/ChatRoom";
 
 
 
@@ -26,6 +27,7 @@ function App() {
                             <PrivateRoute exact path="/edit-profile/email" component={ChangeProfileEmail}/>
                             <PrivateRoute exact path="/edit-profile/password" component={ChangeProfilePassword}/>
                             <PrivateRoute exact path="/host-room" component={HostRoom}/>
+                            <PrivateRoute exact path="/chatrooms/:roomId" component={ChatRoom}/>
 
                             <Route path="/signup" component={Signup}/>
                             <Route path="/login" component={Login}/>
