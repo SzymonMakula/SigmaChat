@@ -52,13 +52,13 @@ export default function Signup(){
                 <Form className="login-body" onSubmit={handleSubmit}>
                     <h2 className="register-header">Register Account</h2>
                     <Form.Group id="email">
-                        <Form.Control type="email" ref={emailRef} placeholder={" ✉️  ️  Email"} required/>
+                        <Form.Control type="email" ref={emailRef} placeholder={" ✉️  ️  Email"} maxlength={"40"} required/>
                     </Form.Group>
                     <Form.Group id="password">
-                        <Form.Control type="password" ref={passwordRef} placeholder={" 🔒   Password"} required/>
+                        <Form.Control type="password" ref={passwordRef} placeholder={" 🔒   Password"} maxlength={"30"} required/>
                     </Form.Group>
                     <Form.Group id="password">
-                        <Form.Control type="password" ref={passwordConfirmRef} placeholder={" 🔒   Confirm Password"} required/>
+                        <Form.Control type="password" ref={passwordConfirmRef} placeholder={" 🔒   Confirm Password"} maxlength={"30"} required/>
                     </Form.Group>
 
                     <Button disabled={loading} type="submit" >REGISTER ACCOUNT</Button>

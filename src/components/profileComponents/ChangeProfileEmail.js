@@ -9,7 +9,7 @@ export default function ChangeProfileEmail(){
 
 
     return(
-        <div className="edit-profile-container">
+        <div className="column-container">
             <div className="nav-tab">
                 <button onClick={()=> history.goBack()}>
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
