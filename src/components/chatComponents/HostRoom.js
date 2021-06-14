@@ -2,10 +2,9 @@ import React, {useEffect, useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {Alert, Form} from "react-bootstrap";
 import "./HostRoom.css"
-import {firestore} from "../../firebase";
 import {useAuth} from "../../context/AuthContext";
 import {storage, database} from "../../firebase";
-
+import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 export default function HostRoom(){
     const imageRef = useRef();
@@ -14,7 +13,6 @@ export default function HostRoom(){
     const storageRef = storage.ref();
     const databaseRef = database.ref()
     const {currentUser} = useAuth();
-    const chatRoomsRef = firestore.collection('chatRooms');
     const [logos, setlogos] = useState();
     const [index, setIndex] = useState(2)
     const [currentAnimation, setAnimation] = useState('none')
@@ -25,32 +23,15 @@ export default function HostRoom(){
     var timeout;
 
 
-    function guidGenerator() {
-        var S4 = function() {
-            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-        };
-        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-    }
 
     async function handleSubmit(e){
         e.preventDefault();
         setError("")
         setSuccess("")
 
-        if ((await chatRoomsRef.doc(nameRef.current.value).get()).exists) return setError("Room with this name already exists. Please choose different name.")
-
-        let id = guidGenerator();
+        let id = generateUniqueID();
         await databaseRef.child(`chatRooms/${id}`).set({
             roomId: id,
-            Host: currentUser.displayName,
-            Name: nameRef.current.value,
-            Description: descRef.current.value,
-            Logo: index
-        })
-        await databaseRef.child(`messages/${nameRef.current.value}`)
-
-        await chatRoomsRef.doc(nameRef.current.value).set({
-            roomId: (Math.floor(Math.random() * 10000000 + 1000000)).toString(),
             Host: currentUser.displayName,
             Name: nameRef.current.value,
             Description: descRef.current.value,
@@ -71,7 +52,6 @@ export default function HostRoom(){
                 logos.push(logo);
             });
             setlogos(logos)
-            console.log(logos)
             }
         )
     }, [])

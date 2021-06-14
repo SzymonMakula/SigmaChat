@@ -133,7 +133,7 @@
     .nav-item button{
         display: flex;
         align-items: center;
-        justify-content: start;
+        justify-content: flex-start;
         transition: var(--transition-speed) ease;
         height: 100%;
         width: 100%;
