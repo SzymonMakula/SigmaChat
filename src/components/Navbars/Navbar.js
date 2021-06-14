@@ -1,5 +1,5 @@
-import React, {useContext, useRef, useState} from "react";
-import {Link, Redirect, useHistory} from "react-router-dom"
+import React, {useRef, useState} from "react";
+import {Link, useHistory} from "react-router-dom"
 import "./Navbar.css"
 import "./MainMenu.css"
 import {useDashboard} from "../Dashboard";

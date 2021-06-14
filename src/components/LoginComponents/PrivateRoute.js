@@ -1,7 +1,6 @@
 import React from "react";
-import {Route, Redirect, BrowserRouter as Router} from "react-router-dom"
+import {Route, Redirect} from "react-router-dom"
 import {useAuth} from "../../context/AuthContext";
-import editProfile from "../profileComponents/EditProfile";
 
 
 export default function PrivateRoute({component: Component, ...rest}){

@@ -1,28 +1,33 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
-import {firestore} from "../../firebase";
+import {database} from "../../firebase";
 import "./ChatRoom.css"
 import {useAuth} from "../../context/AuthContext";
+import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
+
 
 export default function ChatRoom(){
+    const databaseRef = database.ref();
     const history = useHistory();
     let { roomId } = useParams();
     const {currentUser} = useAuth();
     const inputRef = useRef()
     const [loading, setLoading] = useState(true);
-    const [roomInfo, setRoomInfo] = useState({});
+    const [roomInfo, setRoomInfo] = useState();
     const [messages, setMessages] = useState()
 
 
 
     async function getRoomInfo(){
-        const snapshot = await firestore.collection('chatRooms').get();
-        const roomData = await snapshot.docs.filter(room => room.data().roomId === roomId)
-        if (roomData.length === 0) return
-        return Promise.resolve(setRoomInfo(roomData[0].data()))
+        let roomData;
+        await databaseRef.child('chatRooms').once('value', data => roomData = data.val());
+        if (!roomId in Object.keys(roomData)) return;
+        console.log("reading from db")
+        return Promise.resolve(setRoomInfo(roomData[roomId]))
     }
 
     async function handleSubmit(e){
+        let id = generateUniqueID()
         e.preventDefault();
         let message = {
             author: currentUser.displayName,
@@ -30,26 +35,28 @@ export default function ChatRoom(){
             text: inputRef.current.value,
             timestamp: Date.now()
         }
-        await firestore.collection('chatRooms').doc(roomInfo.Name).collection('Messages').add(message)
+        await databaseRef.child(`messages/${roomId}/${id}`).set(message)
+        inputRef.current.value = '';
     }
 
     async function getMessages(){
-        const roomData = (await firestore.collection('chatRooms').doc(roomInfo.Name).collection('Messages').get()).docs.map(doc => doc.data());
-        const ids = ((await (firestore.collection('chatRooms').doc(roomInfo.Name).collection('Messages').get())).docs.map(doc => doc.id))
-
-        async function updateData(){
-            for (let i=0; i < roomData.length; i ++){
-                roomData[i].id = ids[i]
+        await databaseRef.child(`messages/${roomId}`).on('value', snap => {
+            let msgs = snap.val();
+            let result = [];
+            for (let id of Object.keys(msgs)){
+                result.push(msgs[id])
             }
-        }
+            console.log("reading from db")
+            console.log(result)
+            Promise.resolve(setMessages(result))
+        })
 
-        await updateData()
-        return Promise.resolve(setMessages(roomData))
+
     }
 
     useEffect(()=> {
-        Promise.all([getRoomInfo(),
-        getMessages()])
+        getRoomInfo()
+        getMessages()
         console.log("render")
         }, [])
 
@@ -58,7 +65,7 @@ export default function ChatRoom(){
 
     return (
         <>
-            {roomInfo.Name && messages &&
+            {roomInfo &&
             <div className="column-container chatbox" style={{background: "lightblue"}}>
                 <div className="nav-tab">
                     <button onClick={()=> history.push("/")}>
@@ -71,9 +78,10 @@ export default function ChatRoom(){
                     </button>
                     <h2 style={{textAlign: "left"}}>Chat Room: {roomInfo.Name}</h2>
                 </div>
+                {messages &&
                 <div className="chatbox-main">
                     {messages.map(message =>
-                        <div className={"chatbox-message-window"} key={message.id}>
+                        <div className={"chatbox-message-window"} key={generateUniqueID()   }>
                         <div className={"chatbox-profile"}>
                             <span>{message.author}</span>
                             <img src={message.authorPhoto}/>
@@ -83,7 +91,7 @@ export default function ChatRoom(){
                         </div>
                         </div>
                     )}
-                </div>
+                </div>}
                 <div className={"chatbox-input-row"}>
                     <form onSubmit={event => handleSubmit(event)}>
                         <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="laugh-beam"
@@ -92,7 +100,7 @@ export default function ChatRoom(){
                             <path fill="currentColor"
     d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm141.4 389.4c-37.8 37.8-88 58.6-141.4 58.6s-103.6-20.8-141.4-58.6S48 309.4 48 256s20.8-103.6 58.6-141.4S194.6 56 248 56s103.6 20.8 141.4 58.6S448 202.6 448 256s-20.8 103.6-58.6 141.4zM328 152c-23.8 0-52.7 29.3-56 71.4-.7 8.6 10.8 11.9 14.9 4.5l9.5-17c7.7-13.7 19.2-21.6 31.5-21.6s23.8 7.9 31.5 21.6l9.5 17c4.1 7.4 15.6 4 14.9-4.5-3.1-42.1-32-71.4-55.8-71.4zm-201 75.9l9.5-17c7.7-13.7 19.2-21.6 31.5-21.6s23.8 7.9 31.5 21.6l9.5 17c4.1 7.4 15.6 4 14.9-4.5-3.3-42.1-32.2-71.4-56-71.4s-52.7 29.3-56 71.4c-.6 8.5 10.9 11.9 15.1 4.5zM362.4 288H133.6c-8.2 0-14.5 7-13.5 15 7.5 59.2 58.9 105 121.1 105h13.6c62.2 0 113.6-45.8 121.1-105 1-8-5.3-15-13.5-15z"/>
                         </svg>
-                        <input placeholder={"Your message..."} onSubmit={e => handleSubmit(e)} maxLength={"120"} ref={inputRef}></input>
+                        <input placeholder={"Your message..."} onSubmit={e => handleSubmit(e)} maxLength={"120"} ref={inputRef}/>
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="camera-retro"
                              className="svg-inline--fa fa-camera-retro fa-w-16" role="img"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

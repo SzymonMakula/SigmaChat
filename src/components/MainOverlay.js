@@ -1,6 +1,5 @@
-import {BrowserRouter as Router, Switch, Route, useRouteMatch, Link, Redirect} from "react-router-dom"
+import {Switch, Route, useRouteMatch} from "react-router-dom"
 import Dashboard from "./Dashboard";
-import EditProfile from "./profileComponents/EditProfile";
 import React from "react";
 import PrivateRoute from "./LoginComponents/PrivateRoute";
 import ChangeProfileEmail from "./profileComponents/ChangeProfileEmail";
