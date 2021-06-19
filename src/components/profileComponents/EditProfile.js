@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {Form, Button, Alert, Card} from "react-bootstrap";
 import {Link, Redirect, useHistory, useRouteMatch} from "react-router-dom"
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
@@ -11,7 +11,7 @@ import {storage} from "../../firebase";
 
 export default function EditProfile(){
     const nameRef = useRef();
-    const {currentUser} = useAuth();
+    const {currentUser, logout} = useAuth();
     const buttonRef = useRef();
     const storageRef = storage.ref();
     const [uploadFile, setUploadFile] = useState('')
@@ -50,19 +50,19 @@ export default function EditProfile(){
         setLoading(true);
         setError('');
         setSuccess('');
-        if(currentUser.displayName === nameRef.current.value) return setError('New nickname must be different than the previous one.');
         if (uploadFile){
             let imageRef = storageRef.child(`images/${currentUser.uid}`);
             let uploadTask = await imageRef.put(uploadFile, null);
             imageUrl = await uploadTask.ref.getDownloadURL().then(url => url)
         }
+        if(currentUser.displayName === nameRef.current.value && !imageUrl) return setError('New nickname must be different than the previous one.');
+
         await currentUser.updateProfile({
             displayName: nameRef.current.value,
             photoURL: imageUrl ? imageUrl : currentUser.photoURL
         }).then(success => {setSuccess("Profile updated successfully.");
             setButtonState(inactiveButtonStyle);
             setDisabled(true);
-            setUserImage(currentUser.photoURL)
         }, error => setError("Error occurred"))
         setLoading(false);
     }
@@ -97,6 +97,14 @@ export default function EditProfile(){
                         </svg>
                     </button>
                     <h2>Edit Profile</h2>
+                    <button onClick={() => logout()} style={{marginLeft: "auto"}}>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sign-out-alt"
+                             className="svg-inline--fa fa-sign-out-alt fa-w-16" role="img"
+                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor"
+    d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z"/>
+                        </svg>
+                    </button>
                 </div>
                 <Form onSubmit={event => handleSubmit(event)}>
                     <div className="edit-profile-main">

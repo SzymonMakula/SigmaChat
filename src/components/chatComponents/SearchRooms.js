@@ -18,15 +18,22 @@ export default function SearchRooms(){
 
     async function getChatRooms(){
         await databaseRef.on('value', snap => {
-            let rooms = snap.val().chatRooms;
             let result = [];
-            for (let id of Object.keys(rooms)){
-                result.push(rooms[id])
-            }
 
+            try{
+                let rooms = snap.val().chatRooms;
+                for (let id of Object.keys(rooms)){
+                    result.push(rooms[id])
+                }
+            }
+            catch (err) {
+                console.log(err)
+            }
             Promise.resolve(setChatRooms(result))
             setLoading(false)
         });
+
+
     }
     async function loadLogos(){
         let urls = await storageRef.child("logos/").list().then(item => item.items.map(sth => sth.getDownloadURL()));
@@ -51,7 +58,7 @@ export default function SearchRooms(){
                 <span className={"w-100 text-center align-self-center"}>ACTIVE CHAT ROOMS</span>
             </div>
             {!loading && logos && chatRooms.map(room =>
-                (<button key={generateUniqueID} onClick={() => history.push(`/chatrooms/${room.roomId}`)} className="room-info-box">
+                (<button key={generateUniqueID()} onClick={() => history.push(`/chatrooms/${room.roomId}`)} className="room-info-box">
                     <div className="chatroom-logo-box">
                         <img src={logos[room.Logo]}/>
                     </div>

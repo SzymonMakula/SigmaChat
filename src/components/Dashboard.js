@@ -1,12 +1,9 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {useAuth} from "../context/AuthContext";
-import {Route, Switch, useHistory} from "react-router-dom"
-import {BrowserRouter as Router, useRouteMatch, Link} from "react-router-dom";
+import {useHistory} from "react-router-dom"
 import Navbar from "./Navbars/Navbar";
-import editProfile from "./profileComponents/EditProfile";
 import SearchRooms from "./chatComponents/SearchRooms";
-import PrivateRoute from "./LoginComponents/PrivateRoute";
-import HostRoom from "./chatComponents/HostRoom";
+import {storage} from "../firebase";
 
 const DashContext = React.createContext()
 
@@ -15,6 +12,7 @@ export function useDashboard() {
 }
 
 export default function Dashboard(){
+    const storageRef = storage.ref();
     const [error, setError] = useState('');
     const [currentWindow, setCurrentWindow] = useState(null)
     const {currentUser, logout} = useAuth();
@@ -36,6 +34,17 @@ export default function Dashboard(){
 
     }
 
+    async function loadLogo(){
+        return storageRef.child("logos/dice-d20-solid.svg").getDownloadURL();
+    }
+    useEffect(() => {
+        if (!currentUser.photoURL){
+        currentUser.updateProfile({
+            displayName: currentUser.email.match(/(.+)+?@/)[1],
+            photoURL: "https://media.discordapp.net/attachments/87143400691728384/854039271161987122/qocke2uu64571.png?width=641&height=658"
+        })}
+    }, [])
+
 
 
 
@@ -47,12 +56,12 @@ export default function Dashboard(){
 
 
     return (
-
+        <div className="overlay">
         <DashContext.Provider value={functions}>
             <Navbar/>
             <div className="main" style={filter} >
                 <SearchRooms/>
-                <button className="create-room-button">
+                <button className="create-room-button" onClick={() => handleLogout()}>
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus"
                          className="svg-inline--fa fa-plus fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 448 512">
@@ -65,6 +74,7 @@ export default function Dashboard(){
                 {currentWindow}
             </div>
         </DashContext.Provider>
+        </div>
     )
 
 }

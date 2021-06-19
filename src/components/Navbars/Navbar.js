@@ -29,7 +29,7 @@ export default function Navbar(){
         uid :currentUser.uid
     }
     const userName = userInfo.name ? userInfo.name : userInfo.email.match(/(.+)+?@/)[1];
-    const userPhoto = userInfo.photoUrl ? userInfo.photoUrl : "default";
+    const userPhoto = userInfo.photoUrl;
 
     function openMenu(){
         setMenuStyles({visibility: "visible", width: "85%", borderRightWidth: "0.2rem"});
@@ -69,7 +69,7 @@ export default function Navbar(){
                 <div className="profile-bar">
                     <div className="profile-picture-frame">
                         <Link to={"/edit-profile"}>
-                            <img className="profile-picture"/>
+                            <img src={userPhoto} className="profile-picture"/>
                         </Link>
                         <h1>{userName}</h1>
                     </div>
