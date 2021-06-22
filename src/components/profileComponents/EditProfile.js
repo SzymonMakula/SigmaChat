@@ -7,12 +7,13 @@ import ChangeProfileEmail from "./ChangeProfileEmail";
 import PrivateRoute from "../LoginComponents/PrivateRoute";
 import ChangeProfilePassword from "./ChangeProfilePassword";
 import {useAuth} from "../../context/AuthContext";
-import {storage} from "../../firebase";
+import {database, storage} from "../../firebase";
 
 export default function EditProfile(){
     const nameRef = useRef();
     const {currentUser, logout} = useAuth();
     const buttonRef = useRef();
+    const databaseRef = database.ref();
     const storageRef = storage.ref();
     const [uploadFile, setUploadFile] = useState('')
     const [isDisabled, setDisabled] = useState(true)
@@ -65,6 +66,11 @@ export default function EditProfile(){
             setDisabled(true);
         }, error => setError("Error occurred"))
         setLoading(false);
+        await databaseRef.child(`users/${currentUser.uid}`).update({
+            id: currentUser.uid,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL
+        })
     }
 
 

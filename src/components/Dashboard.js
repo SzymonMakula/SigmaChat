@@ -3,7 +3,7 @@ import {useAuth} from "../context/AuthContext";
 import {useHistory} from "react-router-dom"
 import Navbar from "./Navbars/Navbar";
 import SearchRooms from "./chatComponents/SearchRooms";
-import {storage} from "../firebase";
+import {database, storage} from "../firebase";
 
 const DashContext = React.createContext()
 
@@ -12,7 +12,7 @@ export function useDashboard() {
 }
 
 export default function Dashboard(){
-    const storageRef = storage.ref();
+    const databaseRef = database.ref();
     const [error, setError] = useState('');
     const [currentWindow, setCurrentWindow] = useState(null)
     const {currentUser, logout} = useAuth();
@@ -31,18 +31,22 @@ export default function Dashboard(){
     }
     function lightenWindow() {
         setMainFilter({filter: "grayscale(0%)"})
-
     }
-
-    async function loadLogo(){
-        return storageRef.child("logos/dice-d20-solid.svg").getDownloadURL();
-    }
-    useEffect(() => {
-        if (!currentUser.photoURL){
-        currentUser.updateProfile({
+    async function firstTimeUpdate(){
+        await currentUser.updateProfile({
             displayName: currentUser.email.match(/(.+)+?@/)[1],
             photoURL: "https://media.discordapp.net/attachments/87143400691728384/854039271161987122/qocke2uu64571.png?width=641&height=658"
-        })}
+        })
+        await databaseRef.child(`users/${currentUser.uid}`).set({
+            id: currentUser.uid,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL
+        })
+    }
+
+
+    useEffect(() => {
+        if (!currentUser.photoURL) Promise.resolve(firstTimeUpdate())
     }, [])
 
 

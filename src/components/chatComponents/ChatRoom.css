@@ -1,4 +1,5 @@
 .column-container.chatbox > .nav-tab{
+    z-index: 2;
     height: 5.075rem;
     position: fixed;
     background-color: steelblue;
@@ -47,6 +48,7 @@
 }
 
 .chatbox-main{
+    padding: 1rem 0 1rem 0;
     position: relative;
     overflow: scroll;
     display: flex;
@@ -61,6 +63,7 @@
 .chatbox-message-window{
     margin-bottom: 0.2rem;
     display: flex;
+    align-items: center;
     height: auto;
     width: 100%;
 }
@@ -147,4 +150,26 @@
     background-color: whitesmoke;
     border-color: whitesmoke;
     color: black;
+}
+.scroll-to-newest-button{
+    transition: 300ms ease;
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    width: 3rem;
+    border-radius: 3rem;
+    height: 3rem;
+    top: 85%;
+    background-color: inherit;
+    left: 48%;
+    border: none;
+}
+.scroll-to-newest-button svg{
+    border: none;
+    background-color: whitesmoke;
+    color: steelblue;
+    border-radius: 2rem;
+    width: 3rem;
+    height: 3rem;
 }

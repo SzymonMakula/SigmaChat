@@ -2,7 +2,7 @@ import React, {useRef, useState} from "react";
 import {Form, Button, Card, Alert} from "react-bootstrap"
 import {useAuth} from "../../context/AuthContext";
 import {Link, Redirect, useHistory} from "react-router-dom"
-import {storage} from "../../firebase";
+import {database, storage} from "../../firebase";
 
 
 
@@ -10,6 +10,7 @@ export default function Signup(){
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
+    const databaseRef = database.ref();
     const {signup, currentUser} = useAuth();
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false);
@@ -20,11 +21,12 @@ export default function Signup(){
 
     async function handleSubmit(e){
         e.preventDefault();
+        setLoading(true);
         if (passwordRef.current.value !== passwordConfirmRef.current.value){
             return setError('Passwords do not match')
         }
         await signup(emailRef.current.value, passwordRef.current.value).then(accept => {
-            setLoading(true)
+            setLoading(false);
             history.push("/");
         }, reject => {
             setLoading(false)
