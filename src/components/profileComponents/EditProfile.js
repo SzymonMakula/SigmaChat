@@ -1,26 +1,24 @@
-import React, {useContext, useRef, useState} from "react";
-import {Form, Button, Alert, Card} from "react-bootstrap";
-import {Link, Redirect, useHistory, useRouteMatch} from "react-router-dom"
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
+import React, {useEffect, useRef, useState} from "react";
+import {Form, Alert} from "react-bootstrap";
+import {useHistory} from "react-router-dom"
 import "./editProfile.css"
-import ChangeProfileEmail from "./ChangeProfileEmail";
-import PrivateRoute from "../LoginComponents/PrivateRoute";
-import ChangeProfilePassword from "./ChangeProfilePassword";
 import {useAuth} from "../../context/AuthContext";
 import {database, storage} from "../../firebase";
 
 export default function EditProfile(){
     const nameRef = useRef();
+    const bioRef = useRef()
     const {currentUser, logout} = useAuth();
     const buttonRef = useRef();
     const databaseRef = database.ref();
     const storageRef = storage.ref();
     const [uploadFile, setUploadFile] = useState('')
     const [isDisabled, setDisabled] = useState(true)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const history = useHistory();
+    const [profile, setProfile] = useState();
 
     const userInfo = {
         name : currentUser.displayName,
@@ -51,12 +49,17 @@ export default function EditProfile(){
         setLoading(true);
         setError('');
         setSuccess('');
+
         if (uploadFile){
             let imageRef = storageRef.child(`images/${currentUser.uid}`);
             let uploadTask = await imageRef.put(uploadFile, null);
             imageUrl = await uploadTask.ref.getDownloadURL().then(url => url)
         }
-        if(currentUser.displayName === nameRef.current.value && !imageUrl) return setError('New nickname must be different than the previous one.');
+        if(currentUser.displayName === nameRef.current.value && !imageUrl && bioRef.current.value === profile.bio) {
+            setLoading(false);
+            setButtonState(inactiveButtonStyle)
+            return setError('New nickname must be different than the previous one.');
+        }
 
         await currentUser.updateProfile({
             displayName: nameRef.current.value,
@@ -67,9 +70,10 @@ export default function EditProfile(){
         }, error => setError("Error occurred"))
         setLoading(false);
         await databaseRef.child(`users/${currentUser.uid}`).update({
-            id: currentUser.uid,
+            uid: currentUser.uid,
             displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL
+            photoURL: currentUser.photoURL,
+            bio: bioRef.current.value
         })
     }
 
@@ -89,9 +93,18 @@ export default function EditProfile(){
         setButtonState(activeButtonStyle);
         setDisabled(false)
     }
+    useEffect(() => {
+        databaseRef.child(`users/${currentUser.uid}`).once("value", snap => {
+            setProfile(snap.val())
+            setLoading(false)
+
+        })
+    }, [])
 
 
     return(
+        <>
+        {profile &&
             <div className="column-container">
                 <div className="nav-tab">
                     <button onClick={()=> history.push("/")}>
@@ -126,11 +139,15 @@ export default function EditProfile(){
                                 </Form.Group>
                         </div>
                     </div>
+                    <span style={{textAlign: "left", fontSize: "1.4rem", marginTop: "0.7rem", marginLeft: "1rem", minHeight: "2rem"}}>My bio:</span>
+                    <input defaultValue={profile.bio} onChange={event => handleButtonHighlight(event)} minLength={"4"} ref={bioRef} className={"editable-input"} type={"text"} style={{marginTop: "1.2rem", marginLeft: "1rem", alignSelf: "center"}}
+                           placeholder={"Share a little bit about yourself"}/>
                 <button type={"submit"} disabled={isDisabled} ref={buttonRef} style={buttonStateStyle}>
                     <span>{loading ? "Updating Profile..." : "Update Profile"} </span>
                     <span style={{display: loading ? "inline-block" : "none"}} className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
                 </button>
                 </Form>
+
                 {error && <Alert variant="danger">{error}</Alert>}
                 {success && <Alert variant="success">{success}</Alert>}
                 <div className="big-buttons-container">
@@ -141,6 +158,7 @@ export default function EditProfile(){
                     CHANGE PASSWORD
                 </button>
                 </div>
-            </div>
+            </div>}
+        </>
     )
 }

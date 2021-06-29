@@ -12,6 +12,7 @@ import HostRoom from "./chatComponents/HostRoom";
 import React from "react";
 import ChatRoom from "./chatComponents/ChatRoom";
 import Dashboard from "./Dashboard";
+import FriendsList from "./profileComponents/FriendsList";
 
 
 
@@ -28,7 +29,7 @@ function App() {
                             <PrivateRoute exact path="/edit-profile/password" component={ChangeProfilePassword}/>
                             <PrivateRoute exact path="/host-room" component={HostRoom}/>
                             <PrivateRoute exact path="/chatrooms/:roomId" component={ChatRoom}/>
-
+                            <PrivateRoute exact path="/friends" component={FriendsList}/>
                             <Route path="/signup" component={Signup}/>
                             <Route path="/login" component={Login}/>
                         </Switch>

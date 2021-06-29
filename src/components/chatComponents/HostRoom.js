@@ -41,6 +41,9 @@ export default function HostRoom(){
             setLoading(false);
             return setError("Room with this name already exists. Please choose different name.");
         }
+        let room = {};
+        room[nameRef.current.value] = true
+        await databaseRef.child('chatRoomNames/').update(room)
 
         databaseRef.child(`chatRooms/${id}`).set({
             roomId: id,
@@ -97,7 +100,6 @@ export default function HostRoom(){
 
     useEffect(() => {
         return () => {for (let timeout of timeouts) clearTimeout(timeout)}
-
     }, [])
 
 
@@ -124,6 +126,12 @@ export default function HostRoom(){
                     </svg>
                 </button>
             </div>
+            {!logos &&
+            <div className={"loading-container"} style={{color: "black"}}>
+                <div className="spinner-border text-dark" role="status"/>
+                <span>Loading...</span>
+            </div>
+            }
             {logos && <div className={"main-column"}>
                 <Form onSubmit={(event)=> handleSubmit(event)} id="host-room-form">
                     <Form.Group id="text" className={"room-info-row"}>

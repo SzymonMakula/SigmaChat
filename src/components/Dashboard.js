@@ -14,7 +14,6 @@ export function useDashboard() {
 export default function Dashboard(){
     const databaseRef = database.ref();
     const [error, setError] = useState('');
-    const [currentWindow, setCurrentWindow] = useState(null)
     const {currentUser, logout} = useAuth();
     const history = useHistory();
     const [filter, setMainFilter] = useState({filter: "grayscale(0%)"});
@@ -38,7 +37,7 @@ export default function Dashboard(){
             photoURL: "https://media.discordapp.net/attachments/87143400691728384/854039271161987122/qocke2uu64571.png?width=641&height=658"
         })
         await databaseRef.child(`users/${currentUser.uid}`).set({
-            id: currentUser.uid,
+            uid: currentUser.uid,
             displayName: currentUser.displayName,
             photoURL: currentUser.photoURL
         })
@@ -65,17 +64,6 @@ export default function Dashboard(){
             <Navbar/>
             <div className="main" style={filter} >
                 <SearchRooms/>
-                <button className="create-room-button" onClick={() => handleLogout()}>
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus"
-                         className="svg-inline--fa fa-plus fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 448 512">
-                        <path fill="currentColor"
-                              d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67
-                                   0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0
-                                    32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
-                    </svg>
-                </button>
-                {currentWindow}
             </div>
         </DashContext.Provider>
         </div>

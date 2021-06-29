@@ -1,10 +1,50 @@
-import React from "react";
+import React, {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button} from "react-bootstrap";
+import {useAuth} from "../../context/AuthContext";
 
 
 export default function ChangeProfilePassword(){
     const history = useHistory();
+    const oldPassRef = useRef();
+    const newPassRef = useRef();
+    const confirmPass = useRef();
+    const {changePassword, reauthenticate, login, currentUser} = useAuth();
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [buttonState, setButtonState] = useState('secondary')
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        let credentials = [oldPassRef,  newPassRef, confirmPass]
+
+        if (newPassRef.current.value !== confirmPass.current.value) {
+            return setError("Passwords do not match")
+        }
+        reauthenticate(oldPassRef.current.value).then(fulfill => {
+               changePassword(newPassRef.current.value).then(fulfill => {
+                   setError('')
+                   setButtonState('secondary')
+                   setSuccess("Successfully changed password")
+                   for (let credential of credentials) credential.current.value = null;
+               }, error => {
+                   setSuccess('')
+                   setError(error.message)
+               })
+           }, error => {
+            setSuccess('')
+            if (error.code === 'auth/wrong-password') return setError('Invalid current password')
+            setError(error.message)
+        })
+    }
+
+
+
+    function handleButtonState(){
+        if (newPassRef.current.value.length > 0 && confirmPass.current.value.length > 0
+            && oldPassRef.current.value.length> 0) return setButtonState('success')
+        setButtonState('secondary')
+    }
 
 
 
@@ -19,22 +59,27 @@ export default function ChangeProfilePassword(){
                               d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"/>
                     </svg>
                 </button>
-                <h2>Change Password</h2>
+                <h2>Edit Profile</h2>
             </div>
-            <div className="flex-grow-1 flex-column" style={{marginTop: "auto"}}>
-                <Form className="login-body">
-                    <Form.Group id="password">
-                        <Form.Control type="password" placeholder={" 🔒   Current Password"} required/>
-                    </Form.Group>
-                    <Form.Group id="password">
-                        <Form.Control type="password" placeholder={" 🔒   New Password"} required/>
-                    </Form.Group>
-                    <Form.Group id="password">
-                        <Form.Control type="password" placeholder={" 🔒   Confirm Password"} required/>
-                    </Form.Group>
-                    <Button type="submit" >CHANGE PASSWORD</Button>
-                </Form>
-            </div>
+                <div className="w-100 h-100" style={{marginTop: "auto"}}>
+                    <form className="reset-password-form" onSubmit={e => handleSubmit(e)}
+                          onChange={() => handleButtonState()}>
+                        <span> CURRENT PASSWORD</span>
+                        <input ref={oldPassRef} className={"editable-input"} type="password"
+                               placeholder={" 🔒 "} required/>
+                        <span> NEW PASSWORD</span>
+
+                        <input ref={newPassRef} className={"editable-input"} type="password"
+                               placeholder={" 🔒 "} required/>
+                        <span> CONFIRM NEW PASSWORD</span>
+
+                        <input ref={confirmPass} className={"editable-input"} type="password"
+                               placeholder={" 🔒 "} required/>
+                        {error && <Alert variant="danger">{error}</Alert>}
+                        {success && <Alert variant="success">{success}</Alert>}
+                        <Button className={`btn btn-${buttonState}`} type="submit">CHANGE PASSWORD</Button>
+                    </form>
+                </div>
         </div>
     )
 }

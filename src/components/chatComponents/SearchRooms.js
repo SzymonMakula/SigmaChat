@@ -17,11 +17,11 @@ export default function SearchRooms(){
 
 
     async function getChatRooms(){
-        await databaseRef.on('value', snap => {
+        await databaseRef.child('chatRooms/').on('value', snap => {
             let result = [];
 
             try{
-                let rooms = snap.val().chatRooms;
+                let rooms = snap.val()
                 for (let id of Object.keys(rooms)){
                     result.push(rooms[id])
                 }
@@ -30,7 +30,6 @@ export default function SearchRooms(){
                 console.log(err)
             }
             Promise.resolve(setChatRooms(result))
-            setLoading(false)
         });
 
 
@@ -43,10 +42,10 @@ export default function SearchRooms(){
 
 
     useEffect(() => {
-         getChatRooms();
-         loadLogos().then(logos => {
-             setLogos(logos)
-         })
+        Promise.all([getChatRooms(), loadLogos()]).then(fulfill => {
+            setLogos(fulfill[1]);
+            setLoading(false)
+        })
         console.log("render")
     },[])
 
@@ -57,7 +56,7 @@ export default function SearchRooms(){
             <div className="searchbox-title-row">
                 <span className={"w-100 text-center align-self-center"}>ACTIVE CHAT ROOMS</span>
             </div>
-            {!loading && logos && chatRooms.map(room =>
+            {!loading && chatRooms && chatRooms.map(room =>
                 (<button key={generateUniqueID()} onClick={() => history.push(`/chatrooms/${room.roomId}`)} className="room-info-box">
                     <div className="chatroom-logo-box">
                         <img src={logos[room.Logo]}/>
@@ -69,7 +68,12 @@ export default function SearchRooms(){
                         <span>{room.Description}</span>
                     </div>
                 </button>))}
-
+            {loading &&
+            <div className={"loading-container"}>
+                <div className="spinner-border text-light" role="status"/>
+                <span>Loading...</span>
+            </div>
+            }
         </div>
 
 

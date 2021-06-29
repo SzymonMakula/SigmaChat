@@ -24,7 +24,7 @@ body {
 
 .main{
     transition: 900ms ease;
-    background-color: cornsilk;
+    background-color: lightsteelblue;
     overflow: scroll;
     display: flex;
     flex-grow: 1;
@@ -41,27 +41,25 @@ body {
     display: none;
 }
 
-
-
-/* large screens*/
-@media only screen and (min-width: 600px) and (min-height: 400px)  {
-    .main{
-        margin:  0;
-        justify-content: center;
-    }
+@media only screen and (min-width: 600px) and (min-height: 400px) {
     .overlay{
-        overflow:hidden;
-        flex-direction: row;
-        justify-content: flex-start;
-        display: flex;
-        flex:1;
-        background-size: 100%;
+        width: 70%;
+        border-radius: 3rem;
+        border-top-right-radius: 3rem;
+        border-bottom-right-radius: 3rem;
+        height: 100%;
+        overflow: hidden;
     }
-    .socialbar{
-        display: inline-block;
+    #root{
+        display: flex;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+    }
+    .main{
+        overflow: hidden;
     }
 }
-
 
 
 

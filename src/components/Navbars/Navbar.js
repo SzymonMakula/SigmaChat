@@ -32,10 +32,9 @@ export default function Navbar(){
     const userPhoto = userInfo.photoUrl;
 
     function openMenu(){
-        setMenuStyles({visibility: "visible", width: "85%", borderRightWidth: "0.2rem"});
+        setMenuStyles({visibility: "visible", width: handleQuery(), borderRightWidth: "0.2rem"});
         setNavFilter({filter: "grayscale(100%)"})
         darkenWindow();
-        menuRef.current.click();
     }
 
     function closeMenu(){
@@ -43,6 +42,13 @@ export default function Navbar(){
         setNavFilter({filter: "grayscale(0%)"})
         lightenWindow();
     }
+    function handleQuery(){
+        let width;
+        if (window.matchMedia("(min-width: 600px)").matches) return width = "30%";
+        return width = "85%"
+
+    }
+
 
     function handleMove(event){
         if(!scheduled) {
@@ -67,12 +73,12 @@ export default function Navbar(){
         <>
             <nav className="main-menu" ref={menuRef} style={menuStyle} onMouseLeave={() => closeMenu()}  onTouchMoveCapture={event => handleMove(event)} onTouchStart={event => handleTouch(event)}>
                 <div className="profile-bar">
-                    <div className="profile-picture-frame">
-                        <Link to={"/edit-profile"}>
-                            <img src={userPhoto} className="profile-picture"/>
-                        </Link>
-                        <h1>{userName}</h1>
-                    </div>
+                    <button onClick={() => history.push(`/edit-profile`)}>
+                        <div className="profile-picture-frame">
+                                <img src={userPhoto} className="profile-picture"/>
+                            <h1>{userName}</h1>
+                        </div>
+                    </button>
                 </div>
                 <div className="menu-nav">
                     <button className="button-row" onClick={()=> history.push("/host-room")}>
@@ -86,7 +92,7 @@ export default function Navbar(){
                             </svg>
                         <span>Host Chatroom</span>
                     </button>
-                    <button className="button-row">
+                    <button onClick={() => history.push("/friends")} className="button-row">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="users"
                              className="svg-inline--fa fa-users fa-w-20" role="img" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 640 512">

@@ -81,7 +81,7 @@
 }
 
 
-.nav-item button:focus{
+.nav-item button:focus, .nav-item button:hover{
     color: white;
 }
 
@@ -90,6 +90,10 @@
     width: 2rem;
     min-width: 2rem;
     margin: 0 1.5rem;
+}
+
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+
 }
 
 
