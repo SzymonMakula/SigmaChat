@@ -1,25 +1,24 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {Form, Button, Alert, Card} from "react-bootstrap";
-import {Link, Redirect, useHistory, useRouteMatch} from "react-router-dom"
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
+import React, {useEffect, useRef, useState} from "react";
+import {Form, Alert} from "react-bootstrap";
+import {useHistory} from "react-router-dom"
 import "./editProfile.css"
-import ChangeProfileEmail from "./ChangeProfileEmail";
-import PrivateRoute from "../LoginComponents/PrivateRoute";
-import ChangeProfilePassword from "./ChangeProfilePassword";
 import {useAuth} from "../../context/AuthContext";
-import {storage} from "../../firebase";
+import {database, storage} from "../../firebase";
 
 export default function EditProfile(){
     const nameRef = useRef();
-    const {currentUser} = useAuth();
+    const bioRef = useRef()
+    const {currentUser, logout} = useAuth();
     const buttonRef = useRef();
+    const databaseRef = database.ref();
     const storageRef = storage.ref();
     const [uploadFile, setUploadFile] = useState('')
     const [isDisabled, setDisabled] = useState(true)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const history = useHistory();
+    const [profile, setProfile] = useState();
 
     const userInfo = {
         name : currentUser.displayName,
@@ -50,21 +49,32 @@ export default function EditProfile(){
         setLoading(true);
         setError('');
         setSuccess('');
-        if(currentUser.displayName === nameRef.current.value) return setError('New nickname must be different than the previous one.');
+
         if (uploadFile){
             let imageRef = storageRef.child(`images/${currentUser.uid}`);
             let uploadTask = await imageRef.put(uploadFile, null);
             imageUrl = await uploadTask.ref.getDownloadURL().then(url => url)
         }
+        if(currentUser.displayName === nameRef.current.value && !imageUrl && bioRef.current.value === profile.bio) {
+            setLoading(false);
+            setButtonState(inactiveButtonStyle)
+            return setError('New nickname must be different than the previous one.');
+        }
+
         await currentUser.updateProfile({
             displayName: nameRef.current.value,
             photoURL: imageUrl ? imageUrl : currentUser.photoURL
         }).then(success => {setSuccess("Profile updated successfully.");
             setButtonState(inactiveButtonStyle);
             setDisabled(true);
-            setUserImage(currentUser.photoURL)
         }, error => setError("Error occurred"))
         setLoading(false);
+        await databaseRef.child(`users/${currentUser.uid}`).update({
+            uid: currentUser.uid,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
+            bio: bioRef.current.value
+        })
     }
 
 
@@ -83,9 +93,18 @@ export default function EditProfile(){
         setButtonState(activeButtonStyle);
         setDisabled(false)
     }
+    useEffect(() => {
+        databaseRef.child(`users/${currentUser.uid}`).once("value", snap => {
+            setProfile(snap.val())
+            setLoading(false)
+
+        })
+    }, [])
 
 
     return(
+        <>
+        {profile &&
             <div className="column-container">
                 <div className="nav-tab">
                     <button onClick={()=> history.push("/")}>
@@ -97,6 +116,14 @@ export default function EditProfile(){
                         </svg>
                     </button>
                     <h2>Edit Profile</h2>
+                    <button onClick={() => logout()} style={{marginLeft: "auto"}}>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sign-out-alt"
+                             className="svg-inline--fa fa-sign-out-alt fa-w-16" role="img"
+                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor"
+    d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z"/>
+                        </svg>
+                    </button>
                 </div>
                 <Form onSubmit={event => handleSubmit(event)}>
                     <div className="edit-profile-main">
@@ -112,11 +139,15 @@ export default function EditProfile(){
                                 </Form.Group>
                         </div>
                     </div>
+                    <span style={{textAlign: "left", fontSize: "1.4rem", marginTop: "0.7rem", marginLeft: "1rem", minHeight: "2rem"}}>My bio:</span>
+                    <input defaultValue={profile.bio} onChange={event => handleButtonHighlight(event)} minLength={"4"} ref={bioRef} className={"editable-input"} type={"text"} style={{marginTop: "1.2rem", marginLeft: "1rem", alignSelf: "center"}}
+                           placeholder={"Share a little bit about yourself"}/>
                 <button type={"submit"} disabled={isDisabled} ref={buttonRef} style={buttonStateStyle}>
                     <span>{loading ? "Updating Profile..." : "Update Profile"} </span>
                     <span style={{display: loading ? "inline-block" : "none"}} className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
                 </button>
                 </Form>
+
                 {error && <Alert variant="danger">{error}</Alert>}
                 {success && <Alert variant="success">{success}</Alert>}
                 <div className="big-buttons-container">
@@ -127,6 +158,7 @@ export default function EditProfile(){
                     CHANGE PASSWORD
                 </button>
                 </div>
-            </div>
+            </div>}
+        </>
     )
 }

@@ -1,11 +1,49 @@
-import React from "react";
+import React, {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form} from "react-bootstrap";
+import {useAuth} from "../../context/AuthContext";
 
 
 export default function ChangeProfileEmail(){
     const history = useHistory();
+    const passRef = useRef()
+    const emailRef = useRef()
+    const confirmmailRef = useRef()
+    const [buttonState, setButtonState] = useState('secondary');
+    const [error, setError] = useState();
+    const [success, setSuccess] = useState();
+    const {changeMail, reauthenticate, currentUser} = useAuth();
 
+
+    function handleSubmit(e){
+        e.preventDefault();
+        if (emailRef.current.value !== confirmmailRef.current.value) return setError('Emails do not match.')
+
+        reauthenticate(passRef.current.value).then(fulfill => {
+            changeMail(emailRef.current.value).then(fulfill =>{
+                setSuccess('Email Address has been changed successfully.')
+                setError('')
+                setButtonState('secondary')
+                for (let credential of credentials) credential.current.value = null;
+            }, error => {
+                setSuccess('')
+                setError(error.message)
+            })
+        }, error => {
+            setSuccess('')
+            if (error.code === 'auth/wrong-password') return setError('Invalid password')
+            setError(error.message)
+        })
+
+        let credentials = [passRef, emailRef, confirmmailRef]
+
+
+    }
+    function handleButtonState(){
+        if (passRef.current.value.length > 0 && emailRef.current.value.length > 0
+            && confirmmailRef.current.value.length> 0) return setButtonState('success')
+        setButtonState('secondary')
+    }
 
 
     return(
@@ -21,19 +59,25 @@ export default function ChangeProfileEmail(){
                 </button>
                 <h2>Edit Email Address</h2>
             </div>
-            <div className="flex-grow-1 flex-column" style={{marginTop: "auto"}}>
-                <Form className="login-body">
-                   <Form.Group id="password">
-                       <Form.Control type="password" placeholder={" 🔒   Password"} required/>
-                   </Form.Group>
-                    <Form.Group id="email">
-                        <Form.Control type="email"  placeholder={" ✉️  ️  Email"} required/>
-                    </Form.Group>
-                    <Form.Group id="email">
-                        <Form.Control type="email" placeholder={" ✉️  ️  Confirm Email"} required/>
-                    </Form.Group>
-                    <Button type="submit" >CHANGE EMAIL</Button>
-                </Form>
+            <div className="w-100 h-100" style={{marginTop: "auto"}}>
+                <form className="reset-password-form" onSubmit={e => handleSubmit(e)}
+                      onChange={() => handleButtonState()}>
+                    <span> PASSWORD</span>
+
+                    <input ref={passRef} className={"editable-input"} type="password"
+                           placeholder={" 🔒 "} required/>
+                    <span> NEW EMAIL ADDRESS</span>
+
+                    <input ref={emailRef} className={"editable-input"} type="email"
+                           placeholder={" ✉️  "} required/>
+                    <span> CONFIRM EMAIL ADDRESS</span>
+
+                    <input ref={confirmmailRef} className={"editable-input"} type="email"
+                           placeholder={" ✉️  "} required/>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    {success && <Alert variant="success">{success}</Alert>}
+                    <Button className={`btn btn-${buttonState}`} type="submit">CHANGE EMAIL</Button>
+                </form>
             </div>
         </div>
     )

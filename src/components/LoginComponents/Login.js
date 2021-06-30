@@ -30,7 +30,7 @@ async function handleSubmit(e){
 
 
 }
-useEffect(() => {if (currentUser) return <Redirect to="/"/>})
+useEffect(() => {if (currentUser) history.push("/")})
 
 
 function animate(){
@@ -54,10 +54,10 @@ function animate(){
                 <Form className="login-body" onSubmit={handleSubmit}>
                     <h2>User Login</h2>
                     <Form.Group id="email">
-                        <Form.Control type="email" ref={emailRef} placeholder={" ✉️  ️  Email"} maxlength="40" required/>
+                        <Form.Control type="email" ref={emailRef} placeholder={" ✉️  ️  Email"} maxLength="40" required/>
                     </Form.Group>
                     <Form.Group id="password">
-                        <Form.Control type="password" ref={passwordRef} placeholder={" 🔒   Password"} maxlength="30" required/>
+                        <Form.Control type="password" ref={passwordRef} placeholder={" 🔒   Password"} maxLength="30" required/>
                     </Form.Group>
                     <Button disabled={loading} type="submit" >LOGIN</Button>
                     <div className="login-link">

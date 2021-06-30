@@ -5,6 +5,7 @@ import "./HostRoom.css"
 import {useAuth} from "../../context/AuthContext";
 import {storage, database} from "../../firebase";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
+import data from "bootstrap/js/src/dom/data";
 
 export default function HostRoom(){
     const imageRef = useRef();
@@ -17,27 +18,51 @@ export default function HostRoom(){
     const [index, setIndex] = useState(2)
     const [currentAnimation, setAnimation] = useState('none')
     const [loading, setLoading] = useState(false)
-    const [success, setSuccess] = useState('')
+    const [playingAnimation, setPlaying] = useState(false)
     const [error, setError] = useState('')
     const history = useHistory();
-    var timeout;
+    var timeouts = [];
 
 
+    async function createRoom(id){
+        let roomExists;
+        await databaseRef.child('chatRooms').once("value", snap => {
+            let roomsArray = [];
+            let rooms = snap.val();
+            if (rooms !== null) {
+                for (let id of Object.keys(rooms)) {
+                    roomsArray.push(rooms[id])
+                }
+            }
+            let roomNames = roomsArray.map(room => room.Name)
+            if (roomNames.includes(nameRef.current.value)) return roomExists = true;
+        })
+        if (roomExists) {
+            setLoading(false);
+            return setError("Room with this name already exists. Please choose different name.");
+        }
+        let room = {};
+        room[nameRef.current.value] = true
+        await databaseRef.child('chatRoomNames/').update(room)
 
-    async function handleSubmit(e){
-        e.preventDefault();
-        setError("")
-        setSuccess("")
-
-        let id = generateUniqueID();
-        await databaseRef.child(`chatRooms/${id}`).set({
+        databaseRef.child(`chatRooms/${id}`).set({
             roomId: id,
-            Host: currentUser.displayName,
+            Host: currentUser.displayName, // delete this if not needed
+            HostId: currentUser.uid,
             Name: nameRef.current.value,
             Description: descRef.current.value,
             Logo: index
-        }).then(room => setSuccess(`Successfully created chatroom "${ nameRef.current.value }"`),
-            error => setError(error))
+        }).then(room => {
+            setError("")
+            setLoading(false);
+            history.push(`/chatrooms/${id}`)})
+    }
+
+    async function handleSubmit(e){
+        e.preventDefault();
+        setLoading(true)
+        let id = generateUniqueID();
+        await createRoom(id)
     }
 
     async function loadLogos(){
@@ -57,38 +82,24 @@ export default function HostRoom(){
     }, [])
 
     function incrementIndex(){
-        try{
-            setLoading(true)
-            setTimeout(()=> setLoading(false), 1800)
-            setTimeout(() => setIndex(index < logos.length - 1 ? index + 1: 0), 700)
-        }
-        catch(error){
-            console.log(error)
-        }
+        setPlaying(true)
+        timeouts.push(setTimeout(()=> setPlaying(false), 900))
+        timeouts.push(setTimeout(() => setIndex(index < logos.length - 1 ? index + 1: 0), 450))
     }
     function decrementIndex() {
-        try {
-            setLoading(true)
-            setTimeout(()=> setLoading(false), 1800)
-            setTimeout( () => setIndex(index > 0 ? index - 1 : logos.length - 1), 700)
-        }
-        catch (error){
-            console.log(error)
-        }
-
+        setPlaying(true)
+        timeouts.push(setTimeout(()=> setPlaying(false), 900))
+        timeouts.push(setTimeout( () => setIndex(index > 0 ? index - 1 : logos.length - 1), 450))
     }
     
 
     function animate(direction){
-        try {
-            clearTimeout(timeout)
-            setAnimation(`swipe-${direction} 1.8s forwards`);
-            timeout = setTimeout(() => setAnimation("none"), 1800)}
-        catch(error){
-            console.log(error)
-}}
+        setAnimation(`swipe-${direction} 0.9s forwards`);
+        timeouts.push(setTimeout(() => setAnimation("none"), 900))}
+
+
     useEffect(() => {
-        return () => clearTimeout(timeout)
+        return () => {for (let timeout of timeouts) clearTimeout(timeout)}
     }, [])
 
 
@@ -115,6 +126,12 @@ export default function HostRoom(){
                     </svg>
                 </button>
             </div>
+            {!logos &&
+            <div className={"loading-container"} style={{color: "black"}}>
+                <div className="spinner-border text-dark" role="status"/>
+                <span>Loading...</span>
+            </div>
+            }
             {logos && <div className={"main-column"}>
                 <Form onSubmit={(event)=> handleSubmit(event)} id="host-room-form">
                     <Form.Group id="text" className={"room-info-row"}>
@@ -127,7 +144,7 @@ export default function HostRoom(){
                 {error && <Alert variant="danger">{error}</Alert>}
                 <span>Chat room logo</span>
                 <div className={"logo-picker"}>
-                    <button disabled={loading} onClick={()=> {animate("left"); decrementIndex()}}>
+                    <button disabled={playingAnimation} onClick={()=> {animate("left"); decrementIndex()}}>
                         <svg  aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
                              className="svg-inline--fa fa-chevron-left fa-w-10" role="img"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -136,9 +153,9 @@ export default function HostRoom(){
                         </svg>
                     </button>
                     <div className={"current-logo"}>
-                         <img style={{animation: currentAnimation}} ref={imageRef} src={logos[index]} alt={"Current Logo"}/>
+                         <img style={{animation: loading ?  "shake 0.8s forwards infinite" :currentAnimation}} ref={imageRef} src={logos[index]} alt={"Current Logo"}/>
                     </div>
-                    <button disabled={loading} onClick={()=> {animate("right"); incrementIndex()}}>
+                    <button disabled={playingAnimation} onClick={()=> {animate("right"); incrementIndex()}}>
                         <svg  aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right"
                              className="svg-inline--fa fa-chevron-right fa-w-10" role="img"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">

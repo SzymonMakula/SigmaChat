@@ -20,6 +20,13 @@
     display: flex;
     flex-direction: row;
 }
+.profile-bar  button{
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    border: none;
+    background-color: inherit;
+}
 .profile-picture-frame{
     align-content: center;
     overflow: hidden;
@@ -29,24 +36,14 @@
     background-color: inherit;
     width: 100%;
 }
-.profile-picture-frame a{
-    background-color: inherit;
-    align-self: center;
-    margin: 0 0 0 5%;
-    height: 6rem;
-    min-width: 6rem;
-    border-radius: 30rem;
-    width: 6rem;
-}
+
 .profile-picture{
     align-self: center;
-    overflow: hidden;
     border-color: inherit;
     min-height: 6rem;
     width: 6rem;
     border-radius: 30rem;
     background-size: 100%;
-    background-image: url("pango.jpg");
 }
 
 .profile-picture-frame h1{
@@ -58,7 +55,6 @@
     font-family: Sanchez;
     margin: 0 0 0 3%;
     width: 12rem;
-    overflow: hidden;
     min-height: 2rem;
     height: 2rem;
     min-width: 12rem;
@@ -108,4 +104,18 @@
 }
 .button-row:hover{
     background: lightsteelblue;
+}
+
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+    .main-menu {
+        border-top-left-radius: 3rem;
+        left: 15%;
+
+    }
+
+    .profile-picture-frame h1 {
+        font-size: 2rem;
+        margin-left: 1.5rem;
+    }
+
 }

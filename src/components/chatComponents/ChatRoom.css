@@ -1,23 +1,31 @@
 .column-container.chatbox > .nav-tab{
+    z-index: 2;
     height: 5.075rem;
     position: fixed;
-    background-color: whitesmoke;
-    color: black;
-    border: 0.1rem black solid;
-}
-.column-container.chatbox > .nav-tab svg{
-    color: black;
+    background-color: steelblue;
+    color: white;
+    border: none;
 }
 
-
+.column-container.chatbox{
+    background: linear-gradient(lightslategrey ,lightsteelblue);
+}
 
 .chatbox-input-row{
-    background-color: whitesmoke;
-    position: fixed;
+    background-color: steelblue;
+    position: relative;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 3.55rem;
+}
+.chatbox-input-row button{
+    border: none;
+    background-color: inherit;
+}
+
+.chatbox-input-row svg{
+    color: white;
 }
 .chatbox-input-row > form{
     display: flex;
@@ -26,18 +34,34 @@
     height: 100%;
     width: 100%;
 }
-.chatbox-input-row input{
-    width: 70%;
-    margin: 0;
+.message-input-cloud{
+    margin-left: 1rem;
+    padding: 0.3rem;
+    width: 80%;
+    background-color: white;
+    border: 0;
+    border-radius: 0.6rem;
 }
-.chatbox-input-row svg{
-    margin-left: 0.5rem;
+.chatbox-input-row input{
+    padding: 0;
+    border: 0;
+    width: 100%;
+}
+.chatbox-input-row input:active, .chatbox-input-row input:focus{
+    outline: none;
+}
+.chatbox-input-row button{
     margin-right: 1rem;
+    margin-left: auto;
+}
+
+.chatbox-input-row svg{
     width: 2rem;
     height: 3rem;
 }
 
 .chatbox-main{
+    padding: 1rem 0 0.5rem 0;
     position: relative;
     overflow: scroll;
     display: flex;
@@ -45,39 +69,78 @@
     width: 100%;
     height: 90%;
     margin-top: 5.075rem;
-    margin-bottom: 3.55rem;
 }
 
 
 .chatbox-message-window{
+    margin-bottom: 0.2rem;
     display: flex;
-    min-height: 4rem;
-    flex:1;
+    align-items: center;
+    height: auto;
     width: 100%;
 }
 .chatbox-profile{
+    width: auto;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     height: 100%;
 }
-.chatbox-profile span{
-    margin-left: 0.2rem;
-}
+
 .chatbox-profile img{
+    margin-left: 0.2rem;
     align-self: center;
     height: 3rem;
     border-radius: 2rem;
     width: 3rem
 }
 .chatbox-cloud {
+    height: 100%;
+    flex-direction: column;
+    margin: 0 0rem 0 1rem;
     display: flex;
-    align-items: center;
-    margin-left: 1.5rem;
-    flex:1
+    flex: min-content;
 }
+
 .chatbox-cloud span{
+    min-height: 3rem;
+    font-family: "DejaVu Sans";
+    display: flex;
+    flex-direction: column;
     border-radius: 1rem;
+    overflow-wrap: anywhere;
     padding: 0.5rem;
+    background-color: palegreen;
+    min-width: 4rem;
+    height: auto;
+}
+.chatbox-cloud  text{
+    font-size: 0.7rem;
+    color: dimgrey;
+}
+
+
+
+
+.scroll-to-newest-button{
+    transition: 300ms ease;
+    opacity: 0;
+    padding: 0;
+    margin: 0 0 3.55rem 0;
+    position: fixed;
+    width: 3rem;
+    border-radius: 3rem;
+    height: 3.4rem;
+    bottom: 0;
+    background-color: inherit;
+    left: 45%;
+    border: none;
+}
+.scroll-to-newest-button svg{
+    border: none;
     background-color: whitesmoke;
-    min-width: 3rem;
+    color: steelblue;
+    border-radius: 2rem;
+    width: 3rem;
+    height: 3rem;
 }

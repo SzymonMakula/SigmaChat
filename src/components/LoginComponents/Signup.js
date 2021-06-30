@@ -2,6 +2,7 @@ import React, {useRef, useState} from "react";
 import {Form, Button, Card, Alert} from "react-bootstrap"
 import {useAuth} from "../../context/AuthContext";
 import {Link, Redirect, useHistory} from "react-router-dom"
+import {database, storage} from "../../firebase";
 
 
 
@@ -9,6 +10,7 @@ export default function Signup(){
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
+    const databaseRef = database.ref();
     const {signup, currentUser} = useAuth();
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false);
@@ -16,13 +18,15 @@ export default function Signup(){
     const imageRef = useRef();
     var timeout;
 
+
     async function handleSubmit(e){
         e.preventDefault();
+        setLoading(true);
         if (passwordRef.current.value !== passwordConfirmRef.current.value){
             return setError('Passwords do not match')
         }
         await signup(emailRef.current.value, passwordRef.current.value).then(accept => {
-            setLoading(true)
+            setLoading(false);
             history.push("/");
         }, reject => {
             setLoading(false)
@@ -52,13 +56,13 @@ export default function Signup(){
                 <Form className="login-body" onSubmit={handleSubmit}>
                     <h2 className="register-header">Register Account</h2>
                     <Form.Group id="email">
-                        <Form.Control type="email" ref={emailRef} placeholder={" ✉️  ️  Email"} maxlength={"40"} required/>
+                        <Form.Control type="email" ref={emailRef} placeholder={" ✉️  ️  Email"} maxLength={"40"} required/>
                     </Form.Group>
                     <Form.Group id="password">
-                        <Form.Control type="password" ref={passwordRef} placeholder={" 🔒   Password"} maxlength={"30"} required/>
+                        <Form.Control type="password" ref={passwordRef} placeholder={" 🔒   Password"} maxLength={"30"} required/>
                     </Form.Group>
                     <Form.Group id="password">
-                        <Form.Control type="password" ref={passwordConfirmRef} placeholder={" 🔒   Confirm Password"} maxlength={"30"} required/>
+                        <Form.Control type="password" ref={passwordConfirmRef} placeholder={" 🔒   Confirm Password"} maxLength={"30"} required/>
                     </Form.Group>
 
                     <Button disabled={loading} type="submit" >REGISTER ACCOUNT</Button>
