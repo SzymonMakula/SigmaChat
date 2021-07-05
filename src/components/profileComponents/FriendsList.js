@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useHistory, useParams, useRouteMatch} from "react-router-dom";
 import {database} from "../../firebase";
 import {useAuth} from "../../context/AuthContext";
-import "./FriendsList.css"
+import "../../styles/FriendsList.css"
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 

@@ -1,6 +1,6 @@
 import "./LoginComponents/Signup";
 import Signup from "./LoginComponents/Signup";
-import './App.css'
+import '../styles/App.css'
 import {AuthProvider} from "../context/AuthContext";
 import {BrowserRouter as Router, Switch, Route, useHistory} from "react-router-dom";
 import EditProfile from "./profileComponents/EditProfile";

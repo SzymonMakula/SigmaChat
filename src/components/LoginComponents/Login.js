@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Form, Button, Card, Alert} from "react-bootstrap"
 import {useAuth} from "../../context/AuthContext";
 import {Link, Redirect, useHistory} from "react-router-dom"
-import "./Login.css"
+import "../../styles/Login.css"
 
 export default function Login(){
 

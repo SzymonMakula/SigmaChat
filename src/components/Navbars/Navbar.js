@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useHistory} from "react-router-dom"
-import "./Navbar.css"
-import "./MainMenu.css"
+import "../../styles/Navbar.css"
+import "../../styles/MainMenu.css"
 import {useDashboard} from "../Dashboard";
 import {useAuth} from "../../context/AuthContext";
 

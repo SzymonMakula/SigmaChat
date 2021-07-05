@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {database} from "../../firebase";
-import "./ChatRoom.css"
+import "../../styles/ChatRoom.css"
 import {useAuth} from "../../context/AuthContext";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 import LastMessage from "./Messages/LastMessage";

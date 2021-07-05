@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {Alert, Form} from "react-bootstrap";
-import "./HostRoom.css"
+import "../../styles/HostRoom.css"
 import {useAuth} from "../../context/AuthContext";
 import {storage, database} from "../../firebase";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";

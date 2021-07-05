@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {storage, database} from "../../firebase";
-import "./SearchRooms.css";
+import "../../styles/SearchRooms.css";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 

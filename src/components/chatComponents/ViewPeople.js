@@ -1,5 +1,5 @@
 import React from "react";
-import "./ViewPeople.css"
+import "../../styles/ViewPeople.css"
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 import {useAuth} from "../../context/AuthContext";
 

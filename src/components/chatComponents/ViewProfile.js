@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Button} from "react-bootstrap";
 import {database} from "../../firebase";
 import {useAuth} from "../../context/AuthContext";
-import "./ViewProfile.css"
+import "../../styles/ViewProfile.css"
 
 export default function ViewProfile(props) {
     const databaseRef = database.ref();

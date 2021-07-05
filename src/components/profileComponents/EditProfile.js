@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Form, Alert} from "react-bootstrap";
 import {useHistory} from "react-router-dom"
-import "./editProfile.css"
+import "../../styles/editProfile.css"
 import {useAuth} from "../../context/AuthContext";
 import {database, storage} from "../../firebase";
 import {useApp} from "../App";
