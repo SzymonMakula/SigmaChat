@@ -116,7 +116,6 @@
 
 
     .login-container {
-        background-image: url("index.jpg");
         background-size: 100%;
         display: flex;
         justify-content: center;
