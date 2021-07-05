@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Form, Alert} from "react-bootstrap";
 import {useHistory} from "react-router-dom"
-import "./editProfile.css"
+import "../../styles/editProfile.css"
 import {useAuth} from "../../context/AuthContext";
 import {database, storage} from "../../firebase";
+import {useApp} from "../App";
 
 export default function EditProfile(){
     const nameRef = useRef();
@@ -17,8 +18,10 @@ export default function EditProfile(){
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
-    const history = useHistory();
     const [profile, setProfile] = useState();
+    const history = useHistory();
+    const {isDesktop} = useApp()
+
 
     const userInfo = {
         name : currentUser.displayName,
@@ -67,7 +70,7 @@ export default function EditProfile(){
         }).then(success => {setSuccess("Profile updated successfully.");
             setButtonState(inactiveButtonStyle);
             setDisabled(true);
-        }, error => setError("Error occurred"))
+        }, error => setError(error.message))
         setLoading(false);
         await databaseRef.child(`users/${currentUser.uid}`).update({
             uid: currentUser.uid,
@@ -105,7 +108,7 @@ export default function EditProfile(){
     return(
         <>
         {profile &&
-            <div className="column-container">
+            <div className="column-container profile-edit">
                 <div className="nav-tab">
                     <button onClick={()=> history.push("/")}>
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
@@ -117,6 +120,7 @@ export default function EditProfile(){
                     </button>
                     <h2>Edit Profile</h2>
                     <button onClick={() => logout()} style={{marginLeft: "auto"}}>
+                        {isDesktop && <span>Logout</span>}
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sign-out-alt"
                              className="svg-inline--fa fa-sign-out-alt fa-w-16" role="img"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -138,25 +142,29 @@ export default function EditProfile(){
                                     <input className="editable-input" type="text" onChange={event => handleButtonHighlight(event)} ref={nameRef} defaultValue={userName} minLength={"4"} maxLength={"16"} required/>
                                 </Form.Group>
                         </div>
+                        {error && isDesktop && <Alert variant="danger">{error}</Alert>}
+                        {success && isDesktop && <Alert variant="success">{success}</Alert>}
                     </div>
-                    <span style={{textAlign: "left", fontSize: "1.4rem", marginTop: "0.7rem", marginLeft: "1rem", minHeight: "2rem"}}>My bio:</span>
-                    <input defaultValue={profile.bio} onChange={event => handleButtonHighlight(event)} minLength={"4"} ref={bioRef} className={"editable-input"} type={"text"} style={{marginTop: "1.2rem", marginLeft: "1rem", alignSelf: "center"}}
-                           placeholder={"Share a little bit about yourself"}/>
-                <button type={"submit"} disabled={isDisabled} ref={buttonRef} style={buttonStateStyle}>
-                    <span>{loading ? "Updating Profile..." : "Update Profile"} </span>
-                    <span style={{display: loading ? "inline-block" : "none"}} className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
-                </button>
-                </Form>
+                    <div className={"bio-container"}>
+                        <span style={{textAlign: "left", fontSize: "1.4rem", marginTop: "0.7rem", marginLeft: "1rem", minHeight: "2rem"}}>My bio:</span>
+                        <input defaultValue={profile.bio} onChange={event => handleButtonHighlight(event)} minLength={"4"} ref={bioRef} className={"editable-input"} type={"text"} style={{marginTop: "1.2rem", marginLeft: "1rem", alignSelf: "center"}}
+                               placeholder={"Share a little bit about yourself"}/>
+                    </div>
 
-                {error && <Alert variant="danger">{error}</Alert>}
-                {success && <Alert variant="success">{success}</Alert>}
+                    <button type={"submit"} disabled={isDisabled} ref={buttonRef} style={buttonStateStyle}>
+                        <span>{loading ? "Updating Profile..." : "Update Profile"} </span>
+                        <span style={{display: loading ? "inline-block" : "none"}} className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+                    </button>
+                </Form>
+                {error && !isDesktop && <Alert variant="danger">{error}</Alert>}
+                {success && !isDesktop && <Alert variant="success">{success}</Alert>}
                 <div className="big-buttons-container">
-                <button className="change-credential-button" onClick={()=> history.push("/edit-profile/email")}>
-                    CHANGE EMAIL ADDRESS
-                </button>
-                <button className="change-credential-button" onClick={()=> history.push("/edit-profile/password")}>
-                    CHANGE PASSWORD
-                </button>
+                    <button className="change-credential-button" onClick={()=> history.push("/edit-profile/email")}>
+                        CHANGE EMAIL ADDRESS
+                    </button>
+                    <button className="change-credential-button" onClick={()=> history.push("/edit-profile/password")}>
+                        CHANGE PASSWORD
+                    </button>
                 </div>
             </div>}
         </>

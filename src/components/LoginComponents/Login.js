@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Form, Button, Card, Alert} from "react-bootstrap"
 import {useAuth} from "../../context/AuthContext";
 import {Link, Redirect, useHistory} from "react-router-dom"
-import "./Login.css"
+import "../../styles/Login.css"
 
 export default function Login(){
 
@@ -43,7 +43,7 @@ function animate(){
     <div className="login-container">
             <Card className="login-card" >
                 <div className="login-image">
-                    <svg onClick={() => animate()} ref={imageRef} aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d20"
+                    <svg style={{animation: loading ? "shake 0.8s forwards infinite" : "none"}} onClick={() => animate()} ref={imageRef} aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice-d20"
                              className="svg-inline--fa fa-dice-d20 fa-w-15" role="img"
                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512">
                         <path fill="currentColor"

@@ -108,8 +108,14 @@
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
     .main-menu {
+        z-index: 2;
+        position: absolute;
+        transition: 200ms ease-in-out;
+        border-bottom-left-radius: 3rem;
         border-top-left-radius: 3rem;
-        left: 15%;
+        height: 50rem;
+        left: auto;
+        top: auto;
 
     }
 
@@ -117,5 +123,33 @@
         font-size: 2rem;
         margin-left: 1.5rem;
     }
+    .profile-picture{
+        margin-left: 1rem;
+        width: 7rem;
+        height: 7rem;
+    }
+    .profile-bar{
+        transition: background-color 400ms ease-in-out;
+        border-top-left-radius: 3rem;
+    }
+    .profile-picture-frame:hover, .profile-picture-frame:focus, .profile-picture-frame{
+        border-top-left-radius: 3rem;
+    }
+
+    .profile-bar:hover{
+        background-color: deepskyblue;
+        filter: opacity(90%);
+    }
+    .menu-nav{
+        border-bottom-left-radius: 3rem;
+    }
+    .menu-nav .button-row:last-child{;
+        border-bottom-left-radius: 3rem;
+    }
+
+
+
+
+
 
 }

@@ -1,3 +1,6 @@
+.host-room > .nav-tab h2{
+    text-align: center;
+}
 .main-column{
     font-family: Sanchez;
     display: flex;
@@ -104,4 +107,45 @@
         transform: translateX(0);    }
 
 }
+
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+    .host-room .nav-tab button{
+        width: 10rem;
+        margin-right: 0;
+        padding: 0;
+    }
+    .nav-tab{
+        border-bottom: .12rem black solid;
+    }
+
+    .host-room .nav-tab button:last-child{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-left: auto;
+        width: 7rem;
+        padding: 0;
+    }
+    .host-room .nav-tab button:last-child svg{
+        width: 3rem;
+        margin: 0 1rem 0 0;
+    }
+    .host-room .nav-tab h2{
+        margin: 0;
+        width: auto;
+        text-align: left;
+    }
+    .host-room .main-column{
+        padding-top: 2rem;
+    }
+    .logo-picker{
+        justify-content: center;
+    }
+    .current-logo{
+        max-width: 8rem;
+    }
+
+
+}
+
 

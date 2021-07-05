@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {storage, database} from "../../firebase";
-import "./SearchRooms.css";
+import "../../styles/SearchRooms.css";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 
@@ -29,7 +29,7 @@ export default function SearchRooms(){
             catch (err) {
                 console.log(err)
             }
-            Promise.resolve(setChatRooms(result))
+           setChatRooms(result)
         });
 
 
@@ -37,6 +37,10 @@ export default function SearchRooms(){
     async function loadLogos(){
         let urls = await storageRef.child("logos/").list().then(item => item.items.map(sth => sth.getDownloadURL()));
         return Promise.all(urls);
+    }
+    function handleClick(id){
+        let isDesktop = window.matchMedia("(min-width: 600px)").matches
+        history.push(`/chatRooms/${id}`)
     }
 
 
@@ -46,7 +50,7 @@ export default function SearchRooms(){
             setLogos(fulfill[1]);
             setLoading(false)
         })
-        console.log("render")
+
     },[])
 
 
@@ -57,7 +61,7 @@ export default function SearchRooms(){
                 <span className={"w-100 text-center align-self-center"}>ACTIVE CHAT ROOMS</span>
             </div>
             {!loading && chatRooms && chatRooms.map(room =>
-                (<button key={generateUniqueID()} onClick={() => history.push(`/chatrooms/${room.roomId}`)} className="room-info-box">
+                (<button key={generateUniqueID()} onClick={() => handleClick(room.roomId)} className="room-info-box">
                     <div className="chatroom-logo-box">
                         <img src={logos[room.Logo]}/>
                     </div>
@@ -70,7 +74,7 @@ export default function SearchRooms(){
                 </button>))}
             {loading &&
             <div className={"loading-container"}>
-                <div className="spinner-border text-light" role="status"/>
+                <div className="spinner-border text-dark" role="status"/>
                 <span>Loading...</span>
             </div>
             }

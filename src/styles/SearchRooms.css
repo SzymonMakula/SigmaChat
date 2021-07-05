@@ -6,9 +6,10 @@
 }
 
 .searchbox-title-row{
+    height: 5rem;
+    overflow: hidden;
     width: 100%;
     font-size: 1.5rem;;
-    height: 8%;
     border-top: 0.1rem black solid;
     border-bottom: 0.1rem black solid;
     background: linear-gradient(90deg,#067cde, #3effc9);
@@ -35,6 +36,7 @@
 .chatroom-name-box{
     padding: 0.5rem;
     display: flex;
+    overflow-wrap: anywhere;
     align-items: center;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
@@ -78,14 +80,30 @@
 }
 
 .loading-container .spinner-border{
+    color: inherit;
     position: fixed;
-    left: 30%;
-    top: 35%;
+    left: inherit;
+    top: inherit;
     width: 10rem;
     height: 10rem;
 }
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
     .searchbox{
+        border-right: 0.3rem black solid;
+        overflow: auto;
+        flex: none;
+        width: 20rem;
     }
-}
+    .searchbox-title-row{
+        border-top: none;
+    }
+    .loading-container{
+        color: black;
+        position: absolute;
+        left:55%;
+        top: 40%;
+    }
+
+
+    }

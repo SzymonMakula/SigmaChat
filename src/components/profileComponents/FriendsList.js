@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useHistory, useParams, useRouteMatch} from "react-router-dom";
 import {database} from "../../firebase";
 import {useAuth} from "../../context/AuthContext";
-import "./FriendsList.css"
+import "../../styles/FriendsList.css"
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 
@@ -64,12 +64,12 @@ export default function FriendsList(){
                         </button>
                         <h2 style={{textAlign: "left"}}>My Friend List</h2>
                     </div>
-                    <div className={"main-column"} style={{overflow: "scroll"}}>
+                    <div className={"main-column"} style={{overflowY: "auto"}}>
                         {requests && requests.length > 0 &&
                         <div className={"friend-requests-title-bar"}>
                             <span>Friend Requests</span>
                         </div>}
-                        {friends.length === 0 && <span style={{marginTop: "50%", height: "100%"}}>No friends to show. Go on, chat and get some friends!</span>}
+                        {friends.length === 0 && <span id={"no-friends-message"}>No friends to show. Go on, chat and get some friends!</span>}
                         {friends.map(friend => {
                             return (
                                 <div className={"friend-box"} key={generateUniqueID()}>

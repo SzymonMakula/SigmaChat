@@ -149,15 +149,12 @@
     flex-direction: column;
     justify-content: flex-end;
 }
-.change-credential-button:first-child{
-    border-bottom: 0.2rem white solid;
 
-}
 
 
 .change-credential-button{
     border: 0.2rem steelblue solid;
-    transition: 400ms ease;
+    transition:  background-color 400ms ease;
     background-color: steelblue;
     color: white;
     padding: 0;
@@ -219,4 +216,100 @@
     border-radius: 1rem;
 
 }
+
+
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+
+    .column-container > .nav-tab button{
+        padding: 0;
+        width: 10rem;
+    }
+
+    .profile-edit > .nav-tab button{
+        padding: 0;
+        width: 10rem;
+        display: flex;
+        align-items: center;
+    }
+    .profile-edit > .nav-tab button svg{
+        width: 5rem;
+    }
+    .profile-edit > .nav-tab span{
+        font-size: 1.5rem;
+    }
+    .profile-edit > .nav-tab h2{
+        margin: 0 0 0 3rem;
+    }
+    .profile-edit .alert{
+        margin: 0 1rem 0 1rem;
+        width: auto;
+    }
+    .bio-container{
+        margin-top: 1rem;
+    }
+    .edit-picture-frame{
+        height: 100%;
+        width: 20%;
+    }
+    .custom-picture-upload{
+        height: 10rem;
+        width: 10rem;
+    }
+    .custom-picture-upload input:focus {
+        border:none;
+        outline: none;
+    }
+    .custom-picture-upload text{
+        position: absolute;
+        margin: 0;
+        left: 10%;
+        top: 40%
+    }
+    .edit-name-frame{
+        align-self: start;
+        margin-left: 0;
+        height: 100%;
+    }
+    .profile-edit > form button{
+        margin-top: 3rem;
+    }
+    .big-buttons-container{
+        border: inherit;
+    }
+    .big-buttons-container button{
+        border: none;
+        border-top: 0.1rem steelblue solid;
+            border-bottom: 0.1rem steelblue solid;
+
+    }
+    .big-buttons-container button:hover{
+        border: none;
+        border-top: 0.1rem steelblue solid;
+        border-bottom: 0.1rem steelblue solid;
+    }
+    .big-buttons-container button:last-child{
+        border: none;
+        border-top: 0.1rem steelblue solid;
+    }
+
+   /* Credentials */
+
+    .change-credential-container .nav-tab button{
+        width: 10rem;
+    }
+    .change-credential-container .editable-input{
+        width: 60%;
+    }
+    .change-credential-container form{
+        padding-top: 3rem;
+    }
+    .change-credential-container > .nav-tab h2{
+        margin: 0;
+    }
+
+
+
+
+
+    }
 

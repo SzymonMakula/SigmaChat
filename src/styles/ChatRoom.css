@@ -7,7 +7,14 @@
     border: none;
 }
 
+.chatbox-container{
+    flex: 1;
+    display: flex;
+    height: 100%;
+}
 .column-container.chatbox{
+    flex: none;
+    height: 100%;
     background: linear-gradient(lightslategrey ,lightsteelblue);
 }
 
@@ -144,3 +151,48 @@
     width: 3rem;
     height: 3rem;
 }
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+    .column-container.chatbox > .nav-tab {
+        border-bottom: 0.12rem black solid;
+    }
+    .chatbox .nav-tab button{
+        width: 13%;
+    }
+    .chatbox .nav-tab h2{
+        margin: 0;
+    }
+    .chatbox-main{
+         overflow-x: hidden;
+    }
+    .scroll-to-newest-button{
+        width: 3rem;
+        height: 3rem;
+        position: absolute;
+        left: 45%;
+        margin-bottom: 4rem;
+    }
+    .message-input-cloud{
+        width: 92%;
+    }
+
+
+    .chatbox-input-row{
+        border-top: 0.12rem black solid;
+    }
+    .chatbox-input-row button {
+        width: auto;
+        margin-left: 0.5rem;
+        margin-right: 1rem;
+    }
+    .column-container.chatbox{
+        width: 70%;
+    }
+    .column-container.chatbox > .nav-tab{
+        position: relative;
+    }
+    .chatbox-main{
+        margin-top: 0;
+    }
+
+
+    }

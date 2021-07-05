@@ -70,5 +70,33 @@
     color: limegreen;
     border: 0.1rem limegreen solid;
 }
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+    .view-profile-container{
+        background: linear-gradient(#005dab, white);
+        position: absolute;
+        left: auto;
+        width: 40%;
+        margin-left: 2rem;
+        border: 0.12rem black solid
+    }
+    .view-profile-container > .btn{
+        width: 70%;
+        background-color: #42c2e8;
+        border: 0.12rem black solid;
+    }
+    .view-profile-container > .btn:hover{
+        outline: none;
+        color: black;
+        background-color: white;
+        border: 0.12rem #42c2e8 solid;
+    }
+    .view-profile-container > .btn:focus{
+        width: 30%;
+        outline: none;
+
+    }
+
+    }
+
 
 

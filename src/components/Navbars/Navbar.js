@@ -1,7 +1,7 @@
-import React, {useRef, useState} from "react";
-import {Link, useHistory} from "react-router-dom"
-import "./Navbar.css"
-import "./MainMenu.css"
+import React, {useEffect, useRef, useState} from "react";
+import {useHistory} from "react-router-dom"
+import "../../styles/Navbar.css"
+import "../../styles/MainMenu.css"
 import {useDashboard} from "../Dashboard";
 import {useAuth} from "../../context/AuthContext";
 
@@ -13,10 +13,12 @@ export default function Navbar(){
     const {currentUser} = useAuth();
     const menuRef = useRef();
     const [filter, setNavFilter] = useState({filter: "grayscale(0%)"});
-    const {darkenWindow, lightenWindow} = useDashboard();
-    const history = useHistory();
+    const [isDesktop, setIsDesktop] = useState();
     const [menuStyle, setMenuStyles] = useState(
         {visibility: "hidden", width: "0%", borderRightWidth: "0"});
+    const {darkenWindow, lightenWindow} = useDashboard();
+    const history = useHistory();
+
     var prevPos;
     var curPos;
     var scheduled = null;
@@ -44,7 +46,7 @@ export default function Navbar(){
     }
     function handleQuery(){
         let width;
-        if (window.matchMedia("(min-width: 600px)").matches) return width = "30%";
+        if (window.matchMedia("(min-width: 600px)").matches) return width = "25%";
         return width = "85%"
 
     }
@@ -68,16 +70,18 @@ export default function Navbar(){
         prevPos = event.touches[0].clientX;
     }
 
+    useEffect(() => {
+        if (window.matchMedia("(min-width: 600px)").matches) setIsDesktop(true)
+    }, [])
+
 
     return(
         <>
             <nav className="main-menu" ref={menuRef} style={menuStyle} onMouseLeave={() => closeMenu()}  onTouchMoveCapture={event => handleMove(event)} onTouchStart={event => handleTouch(event)}>
                 <div className="profile-bar">
-                    <button onClick={() => history.push(`/edit-profile`)}>
-                        <div className="profile-picture-frame">
-                                <img src={userPhoto} className="profile-picture"/>
+                    <button className="profile-picture-frame" onClick={() => history.push('/edit-profile')}>
+                        <img src={userPhoto} className="profile-picture"/>
                             <h1>{userName}</h1>
-                        </div>
                     </button>
                 </div>
                 <div className="menu-nav">
