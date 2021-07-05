@@ -93,7 +93,9 @@
 }
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
-
+    .navbar-nav{
+        border-bottom: 0.2rem black solid;
+    }
 }
 
 

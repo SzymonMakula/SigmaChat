@@ -1,10 +1,5 @@
-import React, {useEffect} from "react";
 
 export default function SingleMessage(props){
-    useEffect(() => {
-        props.profile.isPrivateRoom = props.isPrivateRoom
-
-    })
 
     return (
         <div className={"chatbox-message-window"}

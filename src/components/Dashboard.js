@@ -1,9 +1,15 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 import {useAuth} from "../context/AuthContext";
-import {useHistory} from "react-router-dom"
+import {BrowserRouter, Route, Router, Switch, useHistory} from "react-router-dom"
 import Navbar from "./Navbars/Navbar";
 import SearchRooms from "./chatComponents/SearchRooms";
 import {database, storage} from "../firebase";
+import ChatRoom from "./chatComponents/ChatRoom";
+import EditProfile from "./profileComponents/EditProfile";
+import ChangeProfileEmail from "./profileComponents/ChangeProfileEmail";
+import ChangeProfilePassword from "./profileComponents/ChangeProfilePassword";
+import HostRoom from "./chatComponents/HostRoom";
+import FriendsList from "./profileComponents/FriendsList";
 
 const DashContext = React.createContext()
 
@@ -16,6 +22,7 @@ export default function Dashboard(){
     const [error, setError] = useState('');
     const {currentUser, logout} = useAuth();
     const history = useHistory();
+    const [isDesktop, setIsDesktop] = useState();
     const [filter, setMainFilter] = useState({filter: "grayscale(0%)"});
 
 
@@ -46,7 +53,8 @@ export default function Dashboard(){
 
     useEffect(() => {
         if (!currentUser.photoURL) Promise.resolve(firstTimeUpdate())
-    }, [])
+        if (window.matchMedia("(min-width: 600px)").matches) setIsDesktop(true)
+            }, [])
 
 
 
@@ -61,10 +69,29 @@ export default function Dashboard(){
     return (
         <div className="overlay">
         <DashContext.Provider value={functions}>
-            <Navbar/>
-            <div className="main" style={filter} >
-                <SearchRooms/>
-            </div>
+            {isDesktop ?
+                <BrowserRouter basename={"/desktop"} history={history}>
+                <Navbar/>
+                <div className="main" style={filter}>
+                        <SearchRooms/>
+                        <Switch>
+                            <Route path={"/chatRooms/:roomId"} component={ChatRoom}/>
+                            <Route exact path={"/edit-profile"} component={EditProfile}/>
+                            <Route exact path={"/edit-profile/password"} component={ChangeProfilePassword}/>
+                            <Route exact path={"/edit-profile/email"} component={ChangeProfileEmail}/>
+                            <Route path={"/host-room"} component={HostRoom}/>
+                            <Route path={"/friends"} component={FriendsList}/>
+
+                        </Switch>
+                </div>
+                </BrowserRouter>
+                :
+                <>
+                <Navbar/>
+                    <div className="main" style={filter}>
+                        <SearchRooms/>
+                    </div>
+                </>}
         </DashContext.Provider>
         </div>
     )

@@ -64,12 +64,12 @@ export default function FriendsList(){
                         </button>
                         <h2 style={{textAlign: "left"}}>My Friend List</h2>
                     </div>
-                    <div className={"main-column"} style={{overflow: "scroll"}}>
+                    <div className={"main-column"} style={{overflowY: "auto"}}>
                         {requests && requests.length > 0 &&
                         <div className={"friend-requests-title-bar"}>
                             <span>Friend Requests</span>
                         </div>}
-                        {friends.length === 0 && <span style={{marginTop: "50%", height: "100%"}}>No friends to show. Go on, chat and get some friends!</span>}
+                        {friends.length === 0 && <span id={"no-friends-message"}>No friends to show. Go on, chat and get some friends!</span>}
                         {friends.map(friend => {
                             return (
                                 <div className={"friend-box"} key={generateUniqueID()}>

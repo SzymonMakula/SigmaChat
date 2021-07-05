@@ -8,8 +8,9 @@ export default function ViewProfile(props) {
     const databaseRef = database.ref();
     const [isFriend, setFriend] = useState();
     const {currentUser} = useAuth();
+    const [background, setBackground] = useState(  "linear-gradient(#005dab, white" )
 
-    const [loading, isLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     async function AddFriend(id) {
         let friend = {};
@@ -22,19 +23,30 @@ export default function ViewProfile(props) {
         if (!isFriend) await AddFriend(id)
         else console.log("other function")
     }
+    async function checkForFriend(){
+        let friend;
+        await databaseRef.child(`users/${currentUser.uid}/friends/${props.profile.uid}`).once(
+            "value", snap => {
+                friend = snap.val() != null
+            })
+        setFriend(friend)
+    }
 
 
     useEffect(() => {
-        databaseRef.child(`users/${currentUser.uid}/friends/${props.profile.id}`).once(
-            "value", snap => {setFriend(snap.val() != null); isLoading(false)})
-    }, [])
+        Promise.resolve(checkForFriend())
+    }, [props.profile.uid])
+
+    useEffect(() => {
+        isFriend || currentUser.uid === props.profile.uid ? setBackground("linear-gradient(#48ff00, #0066e0)") : setBackground("linear-gradient(#005dab, white" );
+        if(isFriend !== undefined) setLoading(false)
+    }, [isFriend])
+
 
     return (
         <>
             {!loading &&
-            <div className={"view-profile-container"} style={{background: isFriend || props.profile.uid === currentUser.uid ?
-            "linear-gradient(#48ff00, #0066e0)" :
-            "linear-gradient: steelblue, lightskyblue"}}>
+            <div className={"view-profile-container"} style={{background: background}}>
                 <div className={"view-profile-box"}>
                     <div className={"view-profile-picture"}>
                         <img src={props.profile.photoURL}/>

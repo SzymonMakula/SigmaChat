@@ -33,8 +33,6 @@
     color: red;
 }
 
-
-
 .friend-requests-title-bar{
     background: linear-gradient(315deg, #000000, #4500ec);
     color: white;
@@ -48,3 +46,13 @@
 .friend-requests-title-bar > span{
     font-size: 1.5rem;
 }
+#no-friends-message{
+    top:40%;
+    left:0;
+    position: absolute;
+}
+@media only screen and (min-width: 600px) and (min-height: 400px) {
+    #no-friends-message {
+        position: relative;
+    }
+    }

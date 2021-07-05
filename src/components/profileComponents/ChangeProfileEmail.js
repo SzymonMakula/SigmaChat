@@ -47,9 +47,9 @@ export default function ChangeProfileEmail(){
 
 
     return(
-        <div className="column-container">
+        <div className="column-container edit-profile change-credential-container">
             <div className="nav-tab">
-                <button onClick={()=> history.goBack()}>
+                <button onClick={()=> history.push(`/edit-profile`)}>
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
                          className="svg-inline--fa fa-chevron-left fa-w-10" role="img"
                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">

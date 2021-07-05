@@ -5,7 +5,7 @@ import "./HostRoom.css"
 import {useAuth} from "../../context/AuthContext";
 import {storage, database} from "../../firebase";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
-import data from "bootstrap/js/src/dom/data";
+import {useApp} from "../App";
 
 export default function HostRoom(){
     const imageRef = useRef();
@@ -41,21 +41,22 @@ export default function HostRoom(){
             setLoading(false);
             return setError("Room with this name already exists. Please choose different name.");
         }
-        let room = {};
-        room[nameRef.current.value] = true
-        await databaseRef.child('chatRoomNames/').update(room)
+
 
         databaseRef.child(`chatRooms/${id}`).set({
             roomId: id,
-            Host: currentUser.displayName, // delete this if not needed
-            HostId: currentUser.uid,
-            Name: nameRef.current.value,
             Description: descRef.current.value,
-            Logo: index
-        }).then(room => {
+            HostId: currentUser.uid,
+            Logo: index,
+            Name: nameRef.current.value
+        }).then(resolve => {
             setError("")
             setLoading(false);
-            history.push(`/chatrooms/${id}`)})
+            let room = {};
+            room[nameRef.current.value] = true
+            databaseRef.child('chatRoomNames/').update(room).then(resolve => {
+                history.push(`/chatrooms/${id}`)}, error => setError(error.message))
+        }, error => setError(error.message))
     }
 
     async function handleSubmit(e){
@@ -106,7 +107,7 @@ export default function HostRoom(){
 
 
     return(
-        <div className="column-container">
+        <div className="column-container host-room">
             <div className="nav-tab">
                 <button onClick={()=> history.push("/")}>
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
@@ -116,8 +117,8 @@ export default function HostRoom(){
                               d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"/>
                     </svg>
                 </button>
-                <h2 style={{textAlign: "center"}}>Host Room</h2>
-                <button type={"submit"} form={"host-room-form"} style={{marginRight: "auto"}}>
+                <h2>Host Room</h2>
+                <button type={"submit"} form={"host-room-form"}>
                     <svg  style={{width: "2rem"}} aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check"
                          className="svg-inline--fa fa-check fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 512 512">
