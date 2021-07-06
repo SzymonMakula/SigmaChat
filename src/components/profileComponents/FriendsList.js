@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {useHistory, useParams, useRouteMatch} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useHistory} from "react-router-dom";
 import {database} from "../../firebase";
 import {useAuth} from "../../context/AuthContext";
 import "../../styles/FriendsList.css"
@@ -11,15 +11,12 @@ export default function FriendsList(){
     const history = useHistory();
     const {currentUser} = useAuth();
     const [friends, setFriends] = useState();
-    const [error, setError] = useState();
-    const [requests, setRequests] = useState();
 
 
 
 
     async function removeFriend(id){
-        await databaseRef.child(`users/${currentUser.uid}/friends/${id}`).remove().catch(
-            error => setError(error.message()))
+        await databaseRef.child(`users/${currentUser.uid}/friends/${id}`).remove()
         await loadFriends();
     }
 
@@ -44,7 +41,7 @@ export default function FriendsList(){
     }
 
     useEffect(() => {
-        loadFriends();
+        Promise.resolve(loadFriends());
 
     }, [])
 
@@ -65,10 +62,6 @@ export default function FriendsList(){
                         <h2 style={{textAlign: "left"}}>My Friend List</h2>
                     </div>
                     <div className={"main-column"} style={{overflowY: "auto"}}>
-                        {requests && requests.length > 0 &&
-                        <div className={"friend-requests-title-bar"}>
-                            <span>Friend Requests</span>
-                        </div>}
                         {friends.length === 0 && <span id={"no-friends-message"}>No friends to show. Go on, chat and get some friends!</span>}
                         {friends.map(friend => {
                             return (

@@ -63,21 +63,29 @@ export default function EditProfile(){
             setButtonState(inactiveButtonStyle)
             return setError('New nickname must be different than the previous one.');
         }
-
-        await currentUser.updateProfile({
-            displayName: nameRef.current.value,
-            photoURL: imageUrl ? imageUrl : currentUser.photoURL
-        }).then(success => {setSuccess("Profile updated successfully.");
+        try{
+            await currentUser.updateProfile({
+                displayName: nameRef.current.value,
+                photoURL: imageUrl ? imageUrl : currentUser.photoURL
+            })
+            await databaseRef.child(`users/${currentUser.uid}`).update({
+                uid: currentUser.uid,
+                displayName: currentUser.displayName,
+                photoURL: currentUser.photoURL,
+                bio: bioRef.current.value
+            })
+        }
+        catch(error){
             setButtonState(inactiveButtonStyle);
             setDisabled(true);
-        }, error => setError(error.message))
+            return setError(error.message)
+        }
+
+        setSuccess("Profile updated successfully.");
+        setButtonState(inactiveButtonStyle);
+        setDisabled(true);
         setLoading(false);
-        await databaseRef.child(`users/${currentUser.uid}`).update({
-            uid: currentUser.uid,
-            displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
-            bio: bioRef.current.value
-        })
+
     }
 
 
@@ -90,9 +98,7 @@ export default function EditProfile(){
         }
     }
 
-    function handleButtonHighlight(event){
-        //add handler for User name change. Maybe change the color to red while editing process is in motion?
-        // if changing name handler throws an exception, just highlight the form border with red colour
+    function handleButtonHighlight(){
         setButtonState(activeButtonStyle);
         setDisabled(false)
     }

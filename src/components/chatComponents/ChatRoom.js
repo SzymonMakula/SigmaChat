@@ -74,11 +74,6 @@ export default function ChatRoom(){
         }
     }
 
-    function handleButtonSwitch(){
-        // apply to onChange event on input field. Try not to make it laggy. Maybe throttle it?
-        if (inputRef.current.value.length > 0 && !showSubmit) setShowSubmit(true);
-        else if (inputRef.current.value.length === 0) setShowSubmit(false)
-    }
 
     async function getUserFromId(id){
         let userData;
@@ -103,7 +98,7 @@ export default function ChatRoom(){
     async function getRoomInfo(){
         let roomData;
         await databaseRef.child('chatRooms').once('value', data => roomData = data.val());
-        if (!roomId in Object.keys(roomData)) return;
+        if (!(roomId in Object.keys(roomData))) return;
         return setRoomInfo(roomData[roomId])
     }
     async function loadChat(){

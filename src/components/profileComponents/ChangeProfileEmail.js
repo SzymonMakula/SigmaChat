@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
-import {Alert, Button, Form} from "react-bootstrap";
+import {Alert, Button} from "react-bootstrap";
 import {useAuth} from "../../context/AuthContext";
 
 
@@ -12,30 +12,25 @@ export default function ChangeProfileEmail(){
     const [buttonState, setButtonState] = useState('secondary');
     const [error, setError] = useState();
     const [success, setSuccess] = useState();
-    const {changeMail, reauthenticate, currentUser} = useAuth();
+    const {changeMail, reauthenticate} = useAuth();
 
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
         if (emailRef.current.value !== confirmmailRef.current.value) return setError('Emails do not match.')
 
-        reauthenticate(passRef.current.value).then(fulfill => {
-            changeMail(emailRef.current.value).then(fulfill =>{
-                setSuccess('Email Address has been changed successfully.')
-                setError('')
-                setButtonState('secondary')
-                for (let credential of credentials) credential.current.value = null;
-            }, error => {
-                setSuccess('')
-                setError(error.message)
-            })
-        }, error => {
-            setSuccess('')
-            if (error.code === 'auth/wrong-password') return setError('Invalid password')
-            setError(error.message)
-        })
-
+        try{
+            await reauthenticate(passRef.current.value)
+            await changeMail(emailRef.current.value)
+        }
+        catch (error){
+            return setError(error.message)
+        }
+        setSuccess('Email Address has been changed successfully.')
+        setError('')
+        setButtonState('secondary')
         let credentials = [passRef, emailRef, confirmmailRef]
+        for (let credential of credentials) credential.current.value = null;
 
 
     }

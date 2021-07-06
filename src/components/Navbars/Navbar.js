@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {useHistory} from "react-router-dom"
 import "../../styles/Navbar.css"
 import "../../styles/MainMenu.css"
@@ -13,7 +13,6 @@ export default function Navbar(){
     const {currentUser} = useAuth();
     const menuRef = useRef();
     const [filter, setNavFilter] = useState({filter: "grayscale(0%)"});
-    const [isDesktop, setIsDesktop] = useState();
     const [menuStyle, setMenuStyles] = useState(
         {visibility: "hidden", width: "0%", borderRightWidth: "0"});
     const {darkenWindow, lightenWindow} = useDashboard();
@@ -47,7 +46,7 @@ export default function Navbar(){
     function handleQuery(){
         let width;
         if (window.matchMedia("(min-width: 600px)").matches) return width = "25%";
-        return width = "85%"
+        return "85%"
 
     }
 
@@ -69,10 +68,6 @@ export default function Navbar(){
     function handleTouch(event){
         prevPos = event.touches[0].clientX;
     }
-
-    useEffect(() => {
-        if (window.matchMedia("(min-width: 600px)").matches) setIsDesktop(true)
-    }, [])
 
 
     return(

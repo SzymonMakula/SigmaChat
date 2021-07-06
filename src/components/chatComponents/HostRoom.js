@@ -5,7 +5,6 @@ import "../../styles/HostRoom.css"
 import {useAuth} from "../../context/AuthContext";
 import {storage, database} from "../../firebase";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
-import {useApp} from "../App";
 
 export default function HostRoom(){
     const imageRef = useRef();
@@ -42,21 +41,26 @@ export default function HostRoom(){
             return setError("Room with this name already exists. Please choose different name.");
         }
 
-
-        databaseRef.child(`chatRooms/${id}`).set({
-            roomId: id,
-            Description: descRef.current.value,
-            HostId: currentUser.uid,
-            Logo: index,
-            Name: nameRef.current.value
-        }).then(resolve => {
-            setError("")
-            setLoading(false);
+        try{
+            await databaseRef.child(`chatRooms/${id}`).set({
+                roomId: id,
+                Description: descRef.current.value,
+                HostId: currentUser.uid,
+                Logo: index,
+                Name: nameRef.current.value
+            })
             let room = {};
             room[nameRef.current.value] = true
-            databaseRef.child('chatRoomNames/').update(room).then(resolve => {
-                history.push(`/chatrooms/${id}`)}, error => setError(error.message))
-        }, error => setError(error.message))
+            await databaseRef.child('chatRoomNames/').update(room)
+        }
+        catch (error){
+            setLoading(false);
+            return setError(error.message)
+        }
+
+        setError("")
+        setLoading(false);
+        history.push(`/chatrooms/${id}`)
     }
 
     async function handleSubmit(e){

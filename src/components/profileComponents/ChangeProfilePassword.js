@@ -9,36 +9,31 @@ export default function ChangeProfilePassword(){
     const oldPassRef = useRef();
     const newPassRef = useRef();
     const confirmPass = useRef();
-    const {changePassword, reauthenticate, login, currentUser} = useAuth();
+    const {changePassword, reauthenticate} = useAuth();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [buttonState, setButtonState] = useState('secondary')
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        let credentials = [oldPassRef,  newPassRef, confirmPass]
-
         if (newPassRef.current.value !== confirmPass.current.value) {
             return setError("Passwords do not match")
         }
-        reauthenticate(oldPassRef.current.value).then(fulfill => {
-               changePassword(newPassRef.current.value).then(fulfill => {
-                   setError('')
-                   setButtonState('secondary')
-                   setSuccess("Successfully changed password")
-                   for (let credential of credentials) credential.current.value = null;
-               }, error => {
-                   setSuccess('')
-                   setError(error.message)
-               })
-           }, error => {
+        try{
+            await reauthenticate(oldPassRef.current.value)
+            await changePassword(newPassRef.current.value)
+        }
+        catch (error){
             setSuccess('')
-            if (error.code === 'auth/wrong-password') return setError('Invalid current password')
-            setError(error.message)
-        })
+            return setError(error.message);
+        }
+
+        setError('')
+        setButtonState('secondary')
+        setSuccess("Successfully changed password")
+        let credentials = [oldPassRef,  newPassRef, confirmPass]
+        for (let credential of credentials) credential.current.value = null;
     }
-
-
 
     function handleButtonState(){
         if (newPassRef.current.value.length > 0 && confirmPass.current.value.length > 0

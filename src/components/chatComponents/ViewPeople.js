@@ -5,6 +5,7 @@ import {useAuth} from "../../context/AuthContext";
 
 export default function ViewPeople(props){
     const {currentUser} = useAuth()
+    // eslint-disable-next-line react/prop-types
     const users = props.users ?  props.users.filter(user => user.uid !== currentUser.uid) : null
 
     return(
@@ -15,6 +16,7 @@ export default function ViewPeople(props){
             </div>
             <div className={"column-container"}>
                 {users && users.map(user => (
+                        // eslint-disable-next-line react/prop-types
                     <div key={generateUniqueID()} className={"chatter-cloud"} onClick={() => props.setProfileToShow(user)}>
                         <img src={user.photoURL}/>
                         <span>{user.displayName}</span>
