@@ -1,32 +1,33 @@
-import React, { useState } from 'react'
-import { Form, Button, Card, Alert } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
-import { Link, Redirect, useHistory } from 'react-router-dom'
-import D20Svg from '../svgs/D20Svg'
+import React, { useState } from 'react';
+import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { Link, Redirect, useHistory } from 'react-router-dom';
+
+import { useAuth } from '../../context/AuthContext';
+import D20Svg from '../svgs/D20Svg';
 
 export default function Signup() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const { signup, currentUser } = useAuth()
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
-    const history = useHistory()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const { signup, currentUser } = useAuth();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        setLoading(true)
+        e.preventDefault();
+        setLoading(true);
         if (password !== confirmPassword) {
-            return setError('Passwords do not match')
+            return setError('Passwords do not match');
         }
         try {
-            await signup(email, password)
+            await signup(email, password);
         } catch (error) {
-            setLoading(false)
-            setError(error.message)
+            setLoading(false);
+            setError(error.message);
         }
-        setLoading(false)
-        history.push('/')
+        setLoading(false);
+        history.push('/');
     }
 
     return (
@@ -85,5 +86,5 @@ export default function Signup() {
                 </Card>
             </div>
         </>
-    )
+    );
 }

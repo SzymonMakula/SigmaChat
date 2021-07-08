@@ -43,7 +43,7 @@
     width: 10rem;
     height: 10rem;
 }
-.rotating-login-dice{
+.rotating-login-dice {
     animation: shake 0.8s infinite;
 }
 

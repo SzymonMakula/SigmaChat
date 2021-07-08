@@ -1,96 +1,100 @@
-import React, { useEffect, useState } from 'react'
-import { Form, Alert } from 'react-bootstrap'
-import { useHistory } from 'react-router-dom'
-import '../../styles/editProfile.css'
-import { useAuth } from '../../context/AuthContext'
-import { database, storage } from '../../firebase'
-import { useApp } from '../App'
-import ArrowBackSvg from '../svgs/ArrowBackSvg'
-import LogoutSvg from '../svgs/LogoutSvg'
-import classNames from 'classnames'
+import React from 'react';
+import { useEffect, useState } from 'react';
+import { Form, Alert } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { database, storage } from '../../firebase';
+import classNames from 'classnames';
+
+import { useAuth } from '../../context/AuthContext';
+import { useApp } from '../App';
+import ArrowBackSvg from '../svgs/ArrowBackSvg';
+import LogoutSvg from '../svgs/LogoutSvg';
+import '../../styles/editProfile.css';
 
 const useProfile = () => {
-    const { currentUser } = useAuth()
-    const [profile, setProfile] = useState()
-    const databaseRef = database.ref()
+    const { currentUser } = useAuth();
+    const [profile, setProfile] = useState();
+    const databaseRef = database.ref();
 
     useEffect(() => {
         databaseRef.child(`users/${currentUser.uid}`).once('value', (snap) => {
-            setProfile(snap.val())
-        })
-    }, [])
-    return { profile }
-}
+            setProfile(snap.val());
+        });
+    }, []);
+    return { profile };
+};
 
 export default function EditProfile() {
-    const { currentUser, logout } = useAuth()
-    const databaseRef = database.ref()
-    const storageRef = storage.ref()
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
-    const history = useHistory()
-    const { isDesktop } = useApp()
-    const { profile } = useProfile()
-    const [name, setName] = useState(currentUser.displayName)
-    const [bio, setBio] = useState()
-    const [userImage, setUserImage] = useState(currentUser.photoURL)
-    const [isButtonActive, setButtonActive] = useState(false)
-    const [uploadFile, setUploadFile] = useState()
+    const { currentUser, logout } = useAuth();
+    const databaseRef = database.ref();
+    const storageRef = storage.ref();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const history = useHistory();
+    const { isDesktop } = useApp();
+    const { profile } = useProfile();
+    const [name, setName] = useState(currentUser.displayName);
+    const [bio, setBio] = useState();
+    const [userImage, setUserImage] = useState(currentUser.photoURL);
+    const [isButtonActive, setButtonActive] = useState(false);
+    const [uploadFile, setUploadFile] = useState();
 
     async function handleSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
 
-        let imageUrl
-        setLoading(true)
-        setError('')
-        setSuccess('')
+        setLoading(true);
+        setError('');
+        setSuccess('');
 
         if (uploadFile) {
-            let imageRef = storageRef.child(`images/${currentUser.uid}`)
-            let uploadTask = await imageRef.put(uploadFile, null)
-            imageUrl = await uploadTask.ref.getDownloadURL().then((url) => url)
+            let imageRef = storageRef.child(`images/${currentUser.uid}`);
+            let uploadTask = await imageRef.put(uploadFile, null);
+            const imageUrl = await uploadTask.ref
+                .getDownloadURL()
+                .then((url) => url);
+            setUserImage(imageUrl);
         }
-        if (currentUser.displayName === name && !imageUrl && !bio) {
-            setLoading(false)
-            setButtonActive(false)
+        if (currentUser.displayName === name && !uploadFile && !bio) {
+            setLoading(false);
+            setButtonActive(false);
             return setError(
                 'New nickname must be different than the previous one.'
-            )
+            );
         }
         if (bio === profile.bio) {
-            setLoading(false)
-            setButtonActive(false)
+            setLoading(false);
+            setButtonActive(false);
             return setError(
                 'New biography must be different than the previous one'
-            )
+            );
         }
         try {
             await currentUser.updateProfile({
                 displayName: name,
-                photoURL: imageUrl || currentUser.photoURL,
-            })
+                photoURL: userImage || currentUser.photoURL,
+            });
             await databaseRef.child(`users/${currentUser.uid}`).update({
                 uid: currentUser.uid,
                 displayName: currentUser.displayName,
                 photoURL: currentUser.photoURL,
                 bio: bio || profile.bio,
-            })
+            });
         } catch (error) {
-            setButtonActive(false)
-            return setError(error.message)
+            setButtonActive(false);
+            return setError(error.message);
         }
 
-        setSuccess('Profile updated successfully.')
-        setButtonActive(false)
-        setLoading(false)
+        setSuccess('Profile updated successfully.');
+        setButtonActive(false);
+        setLoading(false);
     }
 
     function loadPicture(event) {
         if (event.target.files.length !== 0) {
-            setUploadFile(event.target.files[0])
-            setUserImage(URL.createObjectURL(event.target.files[0]))
-            setButtonActive(true)
+            setUploadFile(event.target.files[0]);
+            setUserImage(URL.createObjectURL(event.target.files[0]));
+            setButtonActive(true);
         }
     }
 
@@ -105,7 +109,11 @@ export default function EditProfile() {
                         <h2>{'Edit profile'}</h2>
                         <button onClick={logout} style={{ marginLeft: 'auto' }}>
                             <LogoutSvg />
-                            {isDesktop && <span>Logout</span>}
+                            {isDesktop && (
+                                <span style={{ marginRight: '0.5rem' }}>
+                                    Logout
+                                </span>
+                            )}
                         </button>
                     </div>
                     <Form onSubmit={handleSubmit}>
@@ -132,10 +140,10 @@ export default function EditProfile() {
                                         className="editable-input"
                                         type="text"
                                         onChange={(event) => {
-                                            setButtonActive(true)
-                                            setName(event.target.value)
-                                            console.log(event.target.value)
-                                            console.log(name)
+                                            setButtonActive(true);
+                                            setName(event.target.value);
+                                            console.log(event.target.value);
+                                            console.log(name);
                                         }}
                                         defaultValue={profile.displayName}
                                         minLength={'4'}
@@ -166,8 +174,8 @@ export default function EditProfile() {
                             <input
                                 defaultValue={profile.bio}
                                 onChange={(event) => {
-                                    setButtonActive(true)
-                                    setBio(event.target.value)
+                                    setButtonActive(true);
+                                    setBio(event.target.value);
                                 }}
                                 minLength={'4'}
                                 className={'editable-input'}
@@ -230,5 +238,5 @@ export default function EditProfile() {
                 </div>
             )}
         </>
-    )
+    );
 }

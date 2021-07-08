@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function FirstMessage(props) {
     //change those into classnames!!!
@@ -20,10 +20,10 @@ export default function FirstMessage(props) {
                 </span>
             </div>
         </div>
-    )
+    );
 }
 FirstMessage.propTypes = {
     isOwnMessage: PropTypes.bool.isRequired,
     profile: PropTypes.object.isRequired,
     message: PropTypes.object.isRequired,
-}
+};

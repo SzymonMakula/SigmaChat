@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function LoadingCircle() {
     return (
@@ -6,5 +6,5 @@ export default function LoadingCircle() {
             <div className="spinner-border text-dark" role="status" />
             <span>{'Loading...'}</span>
         </div>
-    )
+    );
 }

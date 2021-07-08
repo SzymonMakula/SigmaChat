@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function LastMessage(props) {
     return (
@@ -36,11 +36,11 @@ export default function LastMessage(props) {
                 </span>
             </div>
         </div>
-    )
+    );
 }
 LastMessage.propTypes = {
     setProfileToShow: PropTypes.func.isRequired,
     isOwnMessage: PropTypes.bool.isRequired,
     profile: PropTypes.object.isRequired,
     message: PropTypes.object.isRequired,
-}
+};
