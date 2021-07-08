@@ -1,85 +1,105 @@
-import React, {useRef, useState} from "react";
-import {useHistory} from "react-router-dom";
-import {Alert, Button} from "react-bootstrap";
-import {useAuth} from "../../context/AuthContext";
+import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { Alert, Button } from 'react-bootstrap'
+import { useAuth } from '../../context/AuthContext'
+import ArrowBackSvg from '../svgs/ArrowBackSvg'
+import classNames from 'classnames'
 
+export default function ChangeProfilePassword() {
+    const history = useHistory()
+    const [oldPassword, setOldPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const { changePassword, reauthenticate } = useAuth()
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
+    const [isButtonActive, setButtonActive] = useState(false)
 
-export default function ChangeProfilePassword(){
-    const history = useHistory();
-    const oldPassRef = useRef();
-    const newPassRef = useRef();
-    const confirmPass = useRef();
-    const {changePassword, reauthenticate, login, currentUser} = useAuth();
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-    const [buttonState, setButtonState] = useState('secondary')
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        let credentials = [oldPassRef,  newPassRef, confirmPass]
-
-        if (newPassRef.current.value !== confirmPass.current.value) {
-            return setError("Passwords do not match")
+    async function handleSubmit(e) {
+        e.preventDefault()
+        if (newPassword !== confirmPassword) {
+            return setError('Passwords do not match')
         }
-        reauthenticate(oldPassRef.current.value).then(fulfill => {
-               changePassword(newPassRef.current.value).then(fulfill => {
-                   setError('')
-                   setButtonState('secondary')
-                   setSuccess("Successfully changed password")
-                   for (let credential of credentials) credential.current.value = null;
-               }, error => {
-                   setSuccess('')
-                   setError(error.message)
-               })
-           }, error => {
+        try {
+            await reauthenticate(oldPassword)
+            await changePassword(newPassword)
+        } catch (error) {
             setSuccess('')
-            if (error.code === 'auth/wrong-password') return setError('Invalid current password')
-            setError(error.message)
-        })
+            return setError(error.message)
+        }
+
+        setError('')
+        setButtonActive(false)
+        setSuccess('Successfully changed password')
+        setOldPassword('')
+        setNewPassword('')
+        setConfirmPassword('')
     }
 
-
-
-    function handleButtonState(){
-        if (newPassRef.current.value.length > 0 && confirmPass.current.value.length > 0
-            && oldPassRef.current.value.length> 0) return setButtonState('success')
-        setButtonState('secondary')
+    function handleButtonState() {
+        if (
+            newPassword.length > 0 &&
+            confirmPassword.length > 0 &&
+            oldPassword.length > 0
+        )
+            return setButtonActive(true)
+        setButtonActive(false)
     }
 
-
-
-    return(
+    return (
         <div className="column-container profile-edit change-credential-container">
             <div className="nav-tab">
-                <button onClick={()=> history.push(`/edit-profile`)}>
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-left"
-                         className="svg-inline--fa fa-chevron-left fa-w-10" role="img"
-                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                        <path fill="currentColor"
-                              d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"/>
-                    </svg>
+                <button onClick={() => history.push(`/edit-profile`)}>
+                    <ArrowBackSvg />
                 </button>
-                <h2>Change password</h2>
+                <h2>{'Change password'}</h2>
             </div>
-                <div className="w-100 h-100" style={{marginTop: "auto"}}>
-                    <form className="reset-password-form" onSubmit={e => handleSubmit(e)}
-                          onChange={() => handleButtonState()}>
-                        <span> CURRENT PASSWORD</span>
-                        <input ref={oldPassRef} className={"editable-input"} type="password"
-                               placeholder={" 🔒 "} required/>
-                        <span> NEW PASSWORD</span>
+            <div className="w-100 h-100" style={{ marginTop: 'auto' }}>
+                <form
+                    className="reset-password-form"
+                    onSubmit={handleSubmit}
+                    onChange={handleButtonState}
+                >
+                    <span> {'CURRENT PASSWORD'}</span>
+                    <input
+                        onChange={(event) => setOldPassword(event.target.value)}
+                        className={'editable-input'}
+                        type="password"
+                        placeholder={' 🔒 '}
+                        required
+                    />
+                    <span> {'NEW PASSWORD'}</span>
 
-                        <input ref={newPassRef} className={"editable-input"} type="password"
-                               placeholder={" 🔒 "} required/>
-                        <span> CONFIRM NEW PASSWORD</span>
+                    <input
+                        onChange={(event) => setNewPassword(event.target.value)}
+                        className={'editable-input'}
+                        type="password"
+                        placeholder={' 🔒 '}
+                        required
+                    />
+                    <span> {'CONFIRM NEW PASSWORD'}</span>
 
-                        <input ref={confirmPass} className={"editable-input"} type="password"
-                               placeholder={" 🔒 "} required/>
-                        {error && <Alert variant="danger">{error}</Alert>}
-                        {success && <Alert variant="success">{success}</Alert>}
-                        <Button className={`btn btn-${buttonState}`} type="submit">CHANGE PASSWORD</Button>
-                    </form>
-                </div>
+                    <input
+                        onChange={(event) =>
+                            setConfirmPassword(event.target.value)
+                        }
+                        className={'editable-input'}
+                        type="password"
+                        placeholder={' 🔒 '}
+                        required
+                    />
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    {success && <Alert variant="success">{success}</Alert>}
+                    <Button
+                        className={classNames(`btn btn-secondary`, {
+                            'active-button': isButtonActive,
+                        })}
+                        type="submit"
+                    >
+                        {'CHANGE PASSWORD'}
+                    </Button>
+                </form>
+            </div>
         </div>
     )
 }

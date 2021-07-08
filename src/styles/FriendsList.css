@@ -1,25 +1,25 @@
-.friend-box{
+.friend-box {
     border: none;
     border-top: 0.1rem black solid;
     border-bottom: 0.1rem black solid;
-    background: linear-gradient( 315deg,lightskyblue, steelblue);
+    background: linear-gradient(315deg, lightskyblue, steelblue);
     display: flex;
     color: white;
     align-items: center;
     height: 7rem;
     min-height: 7rem;
 }
-.friend-picture > img{
+.friend-picture > img {
     width: 5rem;
     height: 5rem;
     margin-left: 1rem;
     border-radius: 6rem;
 }
-.friend-box span{
+.friend-box span {
     margin-left: 1rem;
     font-size: 1.3rem;
 }
-.friend-box button{
+.friend-box button {
     color: red;
     margin-right: 1rem;
     background-color: inherit;
@@ -29,11 +29,11 @@
     height: 3.5rem;
 }
 
-.friend-box svg{
+.friend-box svg {
     color: red;
 }
 
-.friend-requests-title-bar{
+.friend-requests-title-bar {
     background: linear-gradient(315deg, #000000, #4500ec);
     color: white;
     display: flex;
@@ -43,16 +43,16 @@
     height: 3rem;
     min-height: 3rem;
 }
-.friend-requests-title-bar > span{
+.friend-requests-title-bar > span {
     font-size: 1.5rem;
 }
-#no-friends-message{
-    top:40%;
-    left:0;
+#no-friends-message {
+    top: 40%;
+    left: 0;
     position: absolute;
 }
 @media only screen and (min-width: 600px) and (min-height: 400px) {
     #no-friends-message {
         position: relative;
     }
-    }
+}

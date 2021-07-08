@@ -1,4 +1,4 @@
-.column-container{
+.column-container {
     height: 100%;
     flex: 1;
     width: 100%;
@@ -8,7 +8,7 @@
     background-color: whitesmoke;
     justify-content: flex-start;
 }
-.column-container .nav-tab{
+.column-container .nav-tab {
     background-color: steelblue;
     color: white;
     height: 10%;
@@ -16,14 +16,14 @@
     display: flex;
     align-items: center;
 }
-.column-container .nav-tab button svg{
+.column-container .nav-tab button svg {
     align-self: center;
     width: 50%;
     margin-left: 15%;
     height: 50%;
 }
 
-.column-container .nav-tab button{
+.column-container .nav-tab button {
     display: flex;
     align-self: center;
     color: white;
@@ -32,34 +32,35 @@
     width: 25%;
     height: 100%;
 }
-.column-container .nav-tab h2{
+.column-container .nav-tab h2 {
     margin-top: 2%;
     width: 100%;
     text-align: left;
 }
-.edit-profile-main{
+.edit-profile-main {
     height: 50%;
     width: 100%;
     display: flex;
     justify-content: flex-start;
 }
-.edit-picture-frame{
+.edit-picture-frame {
     height: 50%;
     width: 50%;
 }
 
-.edit-name-frame{
+.edit-name-frame {
     margin-left: 2%;
     height: 50%;
     display: flex;
     flex-direction: column;
 }
-.column-container > Form{
+.column-container > Form {
     display: flex;
     flex-direction: column;
 }
 
-.editable-input{
+
+.editable-input {
     font-size: 1.2rem;
     outline: none;
     height: 2rem;
@@ -72,8 +73,7 @@
     width: 95%;
 }
 
-
-.custom-picture-upload{
+.custom-picture-upload {
     filter: grayscale(0%);
     transition: 600ms ease;
     overflow: hidden;
@@ -88,7 +88,7 @@
     margin-left: 10%;
 }
 
-.custom-picture-upload text{
+.custom-picture-upload text {
     visibility: hidden;
     opacity: 0;
     transition: 600ms ease 100ms;
@@ -103,21 +103,20 @@
     font-size: 1rem;
 }
 
-.custom-picture-upload input{
+.custom-picture-upload input {
     overflow: hidden;
     width: 9rem;
     height: 9rem;
     border-radius: 9rem;
 }
-.custom-picture-upload:hover{
+.custom-picture-upload:hover {
     border: none;
     filter: grayscale(100%);
 }
-.custom-picture-upload:hover text{
+.custom-picture-upload:hover text {
     visibility: visible;
     opacity: 1;
 }
-
 
 .editable-input:hover {
     background-color: whitesmoke;
@@ -125,7 +124,9 @@
     filter: grayscale(0%);
     border-bottom: 0.2rem steelblue solid;
 }
-.column-container > form button {
+.edit-profile-button {
+    background-color: lightslategrey;
+    color: white;
     margin-top: 15%;
     border: none;
     transition: 70ms ease;
@@ -134,27 +135,24 @@
     border-radius: 2rem;
     width: 90%;
     overflow: hidden;
-
 }
 
-.edit-name-frame button:hover{
+.edit-name-frame button:hover {
     border-color: limegreen;
     color: limegreen;
     background-color: whitesmoke;
 }
 
-.big-buttons-container{
-    flex:1;
+.big-buttons-container {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 }
 
-
-
-.change-credential-button{
+.change-credential-button {
     border: 0.2rem steelblue solid;
-    transition:  background-color 400ms ease;
+    transition: background-color 400ms ease;
     background-color: steelblue;
     color: white;
     padding: 0;
@@ -166,150 +164,139 @@
     border: 0.2rem steelblue solid;
     background-color: white;
     color: steelblue;
-
 }
-.column-container .alert{
+.column-container .alert {
     display: flex;
     position: relative;
     align-self: center;
     width: 90%;
     margin-top: 5%;
-
-
- }
-
-
+}
 
 /*Change password and changeMail css.*/
 
-
-.reset-password-form{
+.reset-password-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     height: 100%;
 }
-.reset-password-form:first-child{
+.reset-password-form:first-child {
     margin-top: 3rem;
 }
-.reset-password-form span{
+.reset-password-form span {
     color: grey;
 }
 
-.reset-password-form .editable-input{
+.reset-password-form .editable-input {
     margin-top: 0;
     margin-bottom: 1rem;
     height: 5%;
     width: 90%;
     align-self: center;
 }
-.reset-password-form .alert{
+.reset-password-form .alert {
     margin-top: 2rem;
     margin-bottom: 0;
 }
-.reset-password-form > .btn{
+.reset-password-form > .btn {
     transition: 700ms ease-in-out;
     margin-top: 2rem;
     height: 4rem;
     width: 20rem;
     border-radius: 1rem;
-
+}
+.active-button{
+    color: white;
+    background-color: limegreen;
 }
 
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
-
-    .column-container > .nav-tab button{
+    .column-container > .nav-tab button {
         padding: 0;
         width: 10rem;
     }
 
-    .profile-edit > .nav-tab button{
+    .profile-edit > .nav-tab button {
         padding: 0;
         width: 10rem;
         display: flex;
         align-items: center;
     }
-    .profile-edit > .nav-tab button svg{
+    .profile-edit > .nav-tab button svg {
         width: 5rem;
     }
-    .profile-edit > .nav-tab span{
+    .profile-edit > .nav-tab span {
         font-size: 1.5rem;
     }
-    .profile-edit > .nav-tab h2{
+    .profile-edit > .nav-tab h2 {
         margin: 0 0 0 3rem;
     }
-    .profile-edit .alert{
+    .profile-edit .alert {
         margin: 0 1rem 0 1rem;
         width: auto;
     }
-    .bio-container{
+    .bio-container {
         margin-top: 1rem;
     }
-    .edit-picture-frame{
+    .edit-picture-frame {
         height: 100%;
         width: 20%;
     }
-    .custom-picture-upload{
+    .custom-picture-upload {
         height: 10rem;
         width: 10rem;
     }
     .custom-picture-upload input:focus {
-        border:none;
+        border: none;
         outline: none;
     }
-    .custom-picture-upload text{
+    .custom-picture-upload text {
         position: absolute;
         margin: 0;
         left: 10%;
-        top: 40%
+        top: 40%;
     }
-    .edit-name-frame{
+    .edit-name-frame {
         align-self: start;
         margin-left: 0;
         height: 100%;
     }
-    .profile-edit > form button{
+    .profile-edit > form button {
         margin-top: 3rem;
     }
-    .big-buttons-container{
+    .big-buttons-container {
         border: inherit;
     }
-    .big-buttons-container button{
-        border: none;
-        border-top: 0.1rem steelblue solid;
-            border-bottom: 0.1rem steelblue solid;
-
-    }
-    .big-buttons-container button:hover{
+    .big-buttons-container button {
         border: none;
         border-top: 0.1rem steelblue solid;
         border-bottom: 0.1rem steelblue solid;
     }
-    .big-buttons-container button:last-child{
+    .big-buttons-container button:hover {
+        border: none;
+        border-top: 0.1rem steelblue solid;
+        border-bottom: 0.1rem steelblue solid;
+    }
+    .big-buttons-container button:last-child {
         border: none;
         border-top: 0.1rem steelblue solid;
     }
 
-   /* Credentials */
+    /* Credentials */
 
-    .change-credential-container .nav-tab button{
+    .change-credential-container .nav-tab button {
         width: 10rem;
     }
-    .change-credential-container .editable-input{
+    .change-credential-container .editable-input {
         width: 60%;
     }
-    .change-credential-container form{
+    .change-credential-container form {
         padding-top: 3rem;
     }
-    .change-credential-container > .nav-tab h2{
+    .change-credential-container > .nav-tab h2 {
         margin: 0;
     }
-
-
-
-
-
-    }
-
+}

@@ -1,26 +1,24 @@
-.searchbox{
+.searchbox {
     overflow-y: scroll;
     overflow-x: hidden;
     flex: 1;
     font-family: Sanchez;
 }
 
-.searchbox-title-row{
+.searchbox-title-row {
     height: 5rem;
     overflow: hidden;
     width: 100%;
-    font-size: 1.5rem;;
+    font-size: 1.5rem;
     border-top: 0.1rem black solid;
     border-bottom: 0.1rem black solid;
-    background: linear-gradient(90deg,#067cde, #3effc9);
+    background: linear-gradient(90deg, #067cde, #3effc9);
     color: white;
     display: flex;
     align-items: center;
 }
 
-
-
-.room-info-box{
+.room-info-box {
     background: lightskyblue;
     border: none;
     border-top: 0.05rem black solid;
@@ -30,10 +28,10 @@
     flex-direction: row;
     width: 100%;
     padding: 0;
-    transition:  700ms ease;
+    transition: 700ms ease;
     height: 5rem;
 }
-.chatroom-name-box{
+.chatroom-name-box {
     padding: 0.5rem;
     display: flex;
     overflow-wrap: anywhere;
@@ -44,7 +42,7 @@
     height: 100%;
     width: 30%;
 }
-.chatroom-desc-box{
+.chatroom-desc-box {
     padding: 0.5rem;
     font-style: italic;
     display: flex;
@@ -53,33 +51,33 @@
     height: 100%;
     width: 55%;
 }
-.chatroom-logo-box{
+.chatroom-logo-box {
     width: 15%;
     height: 100%;
 }
-.chatroom-logo-box img{
+.chatroom-logo-box img {
     margin-left: 0.5rem;
     width: 80%;
     height: 100%;
 }
 
-.room-info-box:hover{
+.room-info-box:hover {
     background: lightgoldenrodyellow;
 }
-.loading-container{
+.loading-container {
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     position: fixed;
     font-size: 1.3rem;
-    left:30%;
-    top:35%;
+    left: 30%;
+    top: 35%;
     width: 10rem;
     height: 10rem;
 }
 
-.loading-container .spinner-border{
+.loading-container .spinner-border {
     color: inherit;
     position: fixed;
     left: inherit;
@@ -89,21 +87,19 @@
 }
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
-    .searchbox{
+    .searchbox {
         border-right: 0.3rem black solid;
         overflow: auto;
         flex: none;
         width: 20rem;
     }
-    .searchbox-title-row{
+    .searchbox-title-row {
         border-top: none;
     }
-    .loading-container{
+    .loading-container {
         color: black;
         position: absolute;
-        left:55%;
+        left: 55%;
         top: 40%;
     }
-
-
-    }
+}

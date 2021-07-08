@@ -4,45 +4,48 @@
     --text-secondary: #ececec;
     --bg-primary: #23232e;
     --bg-secondary: #141418;
-    --icon: #FF1493FF;
+    --icon: #ff1493ff;
     --transition-speed: 300ms;
-
 }
-html, body, #root, .overlay
-{
-    height: 100%;width: 100%
+html,
+body,
+#root,
+.overlay {
+    height: 100%;
+    width: 100%;
 }
-
 
 body {
     color: black;
     background-color: white;
     margin: 0;
     padding: 0;
-
 }
 
-.main{
+.main {
     transition: 900ms ease;
     background-color: lightsteelblue;
     overflow: scroll;
     display: flex;
     flex-grow: 1;
 }
+.blurred-main{
+    filter: grayscale(100%);
+}
 
-.overlay{
+.overlay {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     height: 100%;
     width: 100%;
 }
-.socialbar{
+.socialbar {
     display: none;
 }
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
-    .overlay{
+    .overlay {
         background-color: steelblue;
         border: 0.2rem black solid;
         box-sizing: content-box;
@@ -51,18 +54,14 @@ body {
         height: 50rem;
         overflow: hidden;
     }
-    #root{
+    #root {
         background-color: white;
         display: flex;
         overflow: hidden;
         justify-content: center;
         align-items: center;
     }
-    .main{
+    .main {
         overflow: hidden;
     }
 }
-
-
-
-
