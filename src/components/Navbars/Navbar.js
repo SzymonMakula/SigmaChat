@@ -1,40 +1,41 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import '../../styles/Navbar.css'
-import '../../styles/MainMenu.css'
-import { useAuth } from '../../context/AuthContext'
-import PropTypes from 'prop-types'
-import PlusSvg from '../svgs/PlusSvg'
-import FriendsSvg from '../svgs/FriendsSvg'
-import CogSvg from '../svgs/CogSvg'
-import BarsSvg from '../svgs/BarsSvg'
-import classNames from 'classnames'
-import { useApp } from '../App'
-import { throttle } from 'lodash'
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { throttle } from 'lodash';
+
+import '../../styles/Navbar.css';
+import '../../styles/MainMenu.css';
+import { useAuth } from '../../context/AuthContext';
+import PlusSvg from '../svgs/PlusSvg';
+import FriendsSvg from '../svgs/FriendsSvg';
+import CogSvg from '../svgs/CogSvg';
+import BarsSvg from '../svgs/BarsSvg';
+import { useApp } from '../App';
 
 const useNavbarTouchHandlers = () => {
-    let prevTouchPos
-    let currentTouchPos
+    let prevTouchPos;
+    let currentTouchPos;
 
     const handleTouchMove = (event, closeMenu) => {
-        currentTouchPos = event.touches[0].clientX
+        currentTouchPos = event.touches[0].clientX;
         if (prevTouchPos > currentTouchPos && prevTouchPos !== undefined) {
-            closeMenu()
+            closeMenu();
         }
-    }
+    };
 
     const handleTouch = (event) => {
-        prevTouchPos = event.touches[0].clientX
-    }
-    return { handleTouchMove, handleTouch }
-}
+        prevTouchPos = event.touches[0].clientX;
+    };
+    return { handleTouchMove, handleTouch };
+};
 
 export default function Navbar(props) {
-    const { currentUser } = useAuth()
-    const { isDesktop } = useApp()
-    const [isNavOpen, setNavOpen] = useState(false)
-    const history = useHistory()
-    const { handleTouchMove, handleTouch } = useNavbarTouchHandlers()
+    const { currentUser } = useAuth();
+    const { isDesktop } = useApp();
+    const [isNavOpen, setNavOpen] = useState(false);
+    const history = useHistory();
+    const { handleTouchMove, handleTouch } = useNavbarTouchHandlers();
 
     const userInfo = {
         name: currentUser.displayName,
@@ -42,21 +43,21 @@ export default function Navbar(props) {
         photoUrl: currentUser.photoURL,
         emailVerified: currentUser.emailVerified,
         uid: currentUser.uid,
-    }
-    const userName = userInfo.name || userInfo.email.match(/(.+)+?@/)[1]
-    const userPhoto = userInfo.photoUrl
+    };
+    const userName = userInfo.name || userInfo.email.match(/(.+)+?@/)[1];
+    const userPhoto = userInfo.photoUrl;
 
     function openMenu() {
-        setNavOpen(true)
-        props.setMenuBlurred(true)
+        setNavOpen(true);
+        props.setMenuBlurred(true);
     }
 
     function closeMenu() {
-        setNavOpen(false)
-        props.setMenuBlurred(false)
+        setNavOpen(false);
+        props.setMenuBlurred(false);
     }
 
-    const handleTouchMoveThrottled = throttle(handleTouchMove, 250)
+    const handleTouchMoveThrottled = throttle(handleTouchMove, 250);
 
     return (
         <>
@@ -117,8 +118,8 @@ export default function Navbar(props) {
                 </ul>
             </nav>
         </>
-    )
+    );
 }
 Navbar.propTypes = {
     setMenuBlurred: PropTypes.func.isRequired,
-}
+};

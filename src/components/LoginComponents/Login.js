@@ -1,30 +1,31 @@
-import React, { useState } from 'react'
-import { Form, Button, Card, Alert } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
-import { Link, Redirect, useHistory } from 'react-router-dom'
-import '../../styles/Login.css'
-import D20Svg from '../svgs/D20Svg'
+import React, { useState } from 'react';
+import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { Link, Redirect, useHistory } from 'react-router-dom';
+
+import { useAuth } from '../../context/AuthContext';
+import D20Svg from '../svgs/D20Svg';
+import '../../styles/Login.css';
 
 export default function Login() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const { login, currentUser } = useAuth()
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
-    const history = useHistory()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { login, currentUser } = useAuth();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        setError('')
-        setLoading(true)
+        e.preventDefault();
+        setError('');
+        setLoading(true);
         try {
-            await login(email, password)
+            await login(email, password);
         } catch (error) {
-            setLoading(false)
-            setError(error.message)
+            setLoading(false);
+            setError(error.message);
         }
-        setLoading(false)
-        history.push('/')
+        setLoading(false);
+        history.push('/');
     }
 
     return (
@@ -70,5 +71,5 @@ export default function Login() {
                 </Card>
             </div>
         </>
-    )
+    );
 }

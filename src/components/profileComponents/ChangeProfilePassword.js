@@ -1,39 +1,40 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { Alert, Button } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
-import ArrowBackSvg from '../svgs/ArrowBackSvg'
-import classNames from 'classnames'
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Alert, Button } from 'react-bootstrap';
+import classNames from 'classnames';
+
+import { useAuth } from '../../context/AuthContext';
+import ArrowBackSvg from '../svgs/ArrowBackSvg';
 
 export default function ChangeProfilePassword() {
-    const history = useHistory()
-    const [oldPassword, setOldPassword] = useState('')
-    const [newPassword, setNewPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const { changePassword, reauthenticate } = useAuth()
-    const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
-    const [isButtonActive, setButtonActive] = useState(false)
+    const history = useHistory();
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const { changePassword, reauthenticate } = useAuth();
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [isButtonActive, setButtonActive] = useState(false);
 
     async function handleSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
         if (newPassword !== confirmPassword) {
-            return setError('Passwords do not match')
+            return setError('Passwords do not match');
         }
         try {
-            await reauthenticate(oldPassword)
-            await changePassword(newPassword)
+            await reauthenticate(oldPassword);
+            await changePassword(newPassword);
         } catch (error) {
-            setSuccess('')
-            return setError(error.message)
+            setSuccess('');
+            return setError(error.message);
         }
 
-        setError('')
-        setButtonActive(false)
-        setSuccess('Successfully changed password')
-        setOldPassword('')
-        setNewPassword('')
-        setConfirmPassword('')
+        setError('');
+        setButtonActive(false);
+        setSuccess('Successfully changed password');
+        setOldPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
     }
 
     function handleButtonState() {
@@ -42,8 +43,8 @@ export default function ChangeProfilePassword() {
             confirmPassword.length > 0 &&
             oldPassword.length > 0
         )
-            return setButtonActive(true)
-        setButtonActive(false)
+            return setButtonActive(true);
+        setButtonActive(false);
     }
 
     return (
@@ -101,5 +102,5 @@ export default function ChangeProfilePassword() {
                 </form>
             </div>
         </div>
-    )
+    );
 }

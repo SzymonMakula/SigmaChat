@@ -59,7 +59,6 @@
     flex-direction: column;
 }
 
-
 .editable-input {
     font-size: 1.2rem;
     outline: none;
@@ -207,11 +206,10 @@
     width: 20rem;
     border-radius: 1rem;
 }
-.active-button{
+.active-button {
     color: white;
     background-color: limegreen;
 }
-
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
     .column-container > .nav-tab button {

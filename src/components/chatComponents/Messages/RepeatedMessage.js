@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function RepeatedMessage(props) {
     return (
@@ -23,10 +23,10 @@ export default function RepeatedMessage(props) {
                 </span>
             </div>
         </div>
-    )
+    );
 }
 RepeatedMessage.propTypes = {
     isOwnMessage: PropTypes.bool.isRequired,
     profile: PropTypes.object.isRequired,
     message: PropTypes.object.isRequired,
-}
+};

@@ -1,53 +1,54 @@
-import React, { useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap'
-import { database } from '../../firebase'
-import { useAuth } from '../../context/AuthContext'
-import '../../styles/ViewProfile.css'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import React, { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
+import { database } from '../../firebase';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+import { useAuth } from '../../context/AuthContext';
+import '../../styles/ViewProfile.css';
 
 export default function ViewProfile(props) {
-    const databaseRef = database.ref()
-    const [isFriend, setFriend] = useState()
-    const { currentUser } = useAuth()
-    const [loading, setLoading] = useState(true)
+    const databaseRef = database.ref();
+    const [isFriend, setFriend] = useState();
+    const { currentUser } = useAuth();
+    const [loading, setLoading] = useState(true);
 
     async function AddFriend(id) {
-        let friend = {}
-        friend[id] = true
+        let friend = {};
+        friend[id] = true;
         try {
             await databaseRef
                 .child(`users/${currentUser.uid}/friends`)
-                .update(friend)
+                .update(friend);
         } catch (error) {
-            setFriend(false)
+            setFriend(false);
         }
-        setFriend(true)
+        setFriend(true);
     }
 
     async function handleClick(event, id) {
-        event.preventDefault()
-        await AddFriend(id)
+        event.preventDefault();
+        await AddFriend(id);
     }
     async function checkForFriend() {
-        let friend
+        let friend;
         await databaseRef
             .child(`users/${currentUser.uid}/friends/${props.profile.uid}`)
             .once('value', (snap) => {
                 if (currentUser.uid === props.profile.uid)
-                    return (friend = true)
-                friend = snap.val() != null
-            })
-        setFriend(friend)
+                    return (friend = true);
+                friend = snap.val() != null;
+            });
+        setFriend(friend);
     }
 
     useEffect(() => {
-        checkForFriend()
-    }, [props.profile.uid])
+        checkForFriend();
+    }, [props.profile.uid]);
 
     useEffect(() => {
-        if (isFriend !== undefined) setLoading(false)
-    }, [isFriend])
+        if (isFriend !== undefined) setLoading(false);
+    }, [isFriend]);
 
     return (
         <>
@@ -91,7 +92,7 @@ export default function ViewProfile(props) {
                     <Button
                         className={'btn btn-outline-success'}
                         onClick={(event) => {
-                            handleClick(event, props.profile.uid)
+                            handleClick(event, props.profile.uid);
                         }}
                         style={{
                             display:
@@ -106,8 +107,8 @@ export default function ViewProfile(props) {
                 </div>
             )}
         </>
-    )
+    );
 }
 ViewProfile.propTypes = {
     profile: PropTypes.object.isRequired,
-}
+};

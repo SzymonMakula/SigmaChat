@@ -1,14 +1,15 @@
-import React from 'react'
-import '../../styles/ViewPeople.css'
-import { useAuth } from '../../context/AuthContext'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { useAuth } from '../../context/AuthContext';
+import PropTypes from 'prop-types';
+
+import '../../styles/ViewPeople.css';
 
 export default function ViewPeople(props) {
-    const { currentUser } = useAuth()
+    const { currentUser } = useAuth();
     // eslint-disable-next-line react/prop-types
     const users = props.users
         ? props.users.filter((user) => user.uid !== currentUser.uid)
-        : null
+        : null;
 
     return (
         <>
@@ -34,9 +35,9 @@ export default function ViewPeople(props) {
                 </div>
             </div>
         </>
-    )
+    );
 }
 ViewPeople.propTypes = {
     users: PropTypes.object.isRequired,
     setProfileToShow: PropTypes.func.isRequired,
-}
+};

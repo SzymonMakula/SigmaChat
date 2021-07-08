@@ -12,17 +12,15 @@
     height: 100%;
     border-right: 0.2rem dimgrey solid;
 }
-.main-menu-open{
+.main-menu-open {
     transition: 400ms ease-in-out;
     visibility: visible;
     width: 85%;
     border-right-width: 0.2rem;
 }
-.main-menu-desktop{
+.main-menu-desktop {
     width: 25%;
 }
-
-
 
 .profile-bar {
     border: 0 dimgrey solid;

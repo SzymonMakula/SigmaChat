@@ -29,7 +29,7 @@ body {
     display: flex;
     flex-grow: 1;
 }
-.blurred-main{
+.blurred-main {
     filter: grayscale(100%);
 }
 

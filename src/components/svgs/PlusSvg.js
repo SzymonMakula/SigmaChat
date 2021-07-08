@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function PlusSvg() {
     return (
@@ -19,5 +19,5 @@ export default function PlusSvg() {
                                     32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
             />
         </svg>
-    )
+    );
 }

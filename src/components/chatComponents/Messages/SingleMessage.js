@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function SingleMessage(props) {
     return (
@@ -14,7 +14,7 @@ export default function SingleMessage(props) {
             <div className={'chatbox-profile'}>
                 <img
                     onClick={() => {
-                        props.setProfileToShow(props.profile)
+                        props.setProfileToShow(props.profile);
                     }}
                     src={props.profile.photoURL}
                 />
@@ -35,7 +35,7 @@ export default function SingleMessage(props) {
                 </span>
             </div>
         </div>
-    )
+    );
 }
 
 SingleMessage.propTypes = {
@@ -43,4 +43,4 @@ SingleMessage.propTypes = {
     isOwnMessage: PropTypes.bool.isRequired,
     profile: PropTypes.object.isRequired,
     message: PropTypes.object.isRequired,
-}
+};

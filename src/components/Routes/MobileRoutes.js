@@ -1,12 +1,13 @@
-import PrivateRoute from './PrivateRoute'
-import Dashboard from '../Dashboard'
-import EditProfile from '../profileComponents/EditProfile'
-import ChangeProfileEmail from '../profileComponents/ChangeProfileEmail'
-import ChangeProfilePassword from '../profileComponents/ChangeProfilePassword'
-import HostRoom from '../chatComponents/HostRoom'
-import ChatRoom from '../chatComponents/ChatRoom'
-import FriendsList from '../profileComponents/FriendsList'
-import React from 'react'
+import React from 'react';
+
+import PrivateRoute from './PrivateRoute';
+import Dashboard from '../Dashboard';
+import EditProfile from '../profileComponents/EditProfile';
+import ChangeProfileEmail from '../profileComponents/ChangeProfileEmail';
+import ChangeProfilePassword from '../profileComponents/ChangeProfilePassword';
+import HostRoom from '../chatComponents/HostRoom';
+import ChatRoom from '../chatComponents/ChatRoom';
+import FriendsList from '../profileComponents/FriendsList';
 
 export default function MobileRoutes() {
     return (
@@ -31,5 +32,5 @@ export default function MobileRoutes() {
             />
             <PrivateRoute exact path="/friends" component={FriendsList} />
         </>
-    )
+    );
 }

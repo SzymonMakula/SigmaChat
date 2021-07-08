@@ -1,41 +1,42 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { Alert, Button } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
-import ArrowBackSvg from '../svgs/ArrowBackSvg'
-import classNames from 'classnames'
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Alert, Button } from 'react-bootstrap';
+import classNames from 'classnames';
+
+import { useAuth } from '../../context/AuthContext';
+import ArrowBackSvg from '../svgs/ArrowBackSvg';
 
 export default function ChangeProfileEmail() {
-    const history = useHistory()
-    const [password, setPassword] = useState('')
-    const [email, setEmail] = useState('')
-    const [confirmEmail, setConfirmEmail] = useState('')
-    const [isButtonActive, setButtonActive] = useState(false)
-    const [error, setError] = useState()
-    const [success, setSuccess] = useState()
-    const { changeMail, reauthenticate } = useAuth()
+    const history = useHistory();
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [confirmEmail, setConfirmEmail] = useState('');
+    const [isButtonActive, setButtonActive] = useState(false);
+    const [error, setError] = useState();
+    const [success, setSuccess] = useState();
+    const { changeMail, reauthenticate } = useAuth();
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        if (email !== confirmEmail) return setError('Emails do not match.')
+        e.preventDefault();
+        if (email !== confirmEmail) return setError('Emails do not match.');
 
         try {
-            await reauthenticate(password)
-            await changeMail(email)
+            await reauthenticate(password);
+            await changeMail(email);
         } catch (error) {
-            return setError(error.message)
+            return setError(error.message);
         }
-        setSuccess('Email Address has been changed successfully.')
-        setError('')
-        setButtonActive(false)
-        setPassword('')
-        setEmail('')
-        setConfirmEmail('')
+        setSuccess('Email Address has been changed successfully.');
+        setError('');
+        setButtonActive(false);
+        setPassword('');
+        setEmail('');
+        setConfirmEmail('');
     }
     function handleButtonState() {
         if (password.length > 0 && email.length > 0 && confirmEmail.length > 0)
-            return setButtonActive(true)
-        setButtonActive(false)
+            return setButtonActive(true);
+        setButtonActive(false);
     }
 
     return (
@@ -94,5 +95,5 @@ export default function ChangeProfileEmail() {
                 </form>
             </div>
         </div>
-    )
+    );
 }

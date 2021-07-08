@@ -1,41 +1,42 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import { database } from '../../firebase'
-import '../../styles/ChatRoom.css'
-import { useAuth } from '../../context/AuthContext'
-import { generateUniqueID } from 'web-vitals/dist/modules/lib/generateUniqueID'
-import LastMessage from './Messages/LastMessage'
-import RepeatedMessage from './Messages/RepeatedMessage'
-import FirstMessage from './Messages/FirstMessage'
-import ViewProfile from './ViewProfile'
-import SingleMessage from './Messages/SingleMessage'
-import ViewPeople from './ViewPeople'
+import React, { useEffect, useRef, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { database } from '../../firebase';
+import { generateUniqueID } from 'web-vitals/dist/modules/lib/generateUniqueID';
+
+import '../../styles/ChatRoom.css';
+import { useAuth } from '../../context/AuthContext';
+import LastMessage from './Messages/LastMessage';
+import RepeatedMessage from './Messages/RepeatedMessage';
+import FirstMessage from './Messages/FirstMessage';
+import ViewProfile from './ViewProfile';
+import SingleMessage from './Messages/SingleMessage';
+import ViewPeople from './ViewPeople';
 
 export default function ChatRoom() {
-    const databaseRef = database.ref()
-    const history = useHistory()
-    const dummy = useRef()
-    const chatboxRef = useRef()
-    let { roomId } = useParams()
-    const { currentUser } = useAuth()
-    const inputRef = useRef()
-    const [profileToShow, setProfileToShow] = useState(null)
-    const [showScrollButton, setShowScrollButton] = useState(false)
-    const [roomInfo, setRoomInfo] = useState()
-    const [isDesktop, setIsDesktop] = useState()
-    const [messages, setMessages] = useState(null)
-    const [showSubmit, setShowSubmit] = useState(true)
-    const [loading, setLoading] = useState(true)
-    const [scrolled, setScrolled] = useState(false)
-    const [users, setUsers] = useState(null)
-    var scrollPosition
-    var scheduled
+    const databaseRef = database.ref();
+    const history = useHistory();
+    const dummy = useRef();
+    const chatboxRef = useRef();
+    let { roomId } = useParams();
+    const { currentUser } = useAuth();
+    const inputRef = useRef();
+    const [profileToShow, setProfileToShow] = useState(null);
+    const [showScrollButton, setShowScrollButton] = useState(false);
+    const [roomInfo, setRoomInfo] = useState();
+    const [isDesktop, setIsDesktop] = useState();
+    const [messages, setMessages] = useState(null);
+    const [showSubmit, setShowSubmit] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [scrolled, setScrolled] = useState(false);
+    const [users, setUsers] = useState(null);
+    var scrollPosition;
+    var scheduled;
 
     function scrollBottomAtStart() {
         if (!scrolled && messages) {
-            dummy.current.scrollIntoView()
-            console.log('page loaded')
-            setScrolled(true)
+            dummy.current.scrollIntoView();
+            console.log('page loaded');
+            setScrolled(true);
         }
     }
 
@@ -47,170 +48,170 @@ export default function ChatRoom() {
                     scrollPosition =
                         chatboxRef.current.scrollHeight -
                         chatboxRef.current.scrollTop -
-                        chatboxRef.current.offsetHeight
-                    if (scrollPosition > 500) return setShowScrollButton(true)
-                    setShowScrollButton(false)
-                    scheduled = null
+                        chatboxRef.current.offsetHeight;
+                    if (scrollPosition > 500) return setShowScrollButton(true);
+                    setShowScrollButton(false);
+                    scheduled = null;
                 } catch (err) {
-                    console.log('error')
+                    console.log('error');
                 }
-            }, 250)
+            }, 250);
         }
-        scheduled = event
+        scheduled = event;
     }
 
     function handleSubmit(e) {
-        let id = generateUniqueID()
-        e.preventDefault()
+        let id = generateUniqueID();
+        e.preventDefault();
         let message = {
             authorId: currentUser.uid,
             text: inputRef.current.value,
             timestamp: Date.now(),
             uid: generateUniqueID(),
-        }
+        };
         if (inputRef.current.value.length !== 0) {
             // eslint-disable-next-line no-unused-vars
             databaseRef
                 .child(`messages/${roomId}/${id}`)
                 .set(message)
                 .then(() => {
-                    inputRef.current.value = ''
-                    setShowSubmit(false)
-                    console.log('scrolling')
-                    dummy.current.scrollIntoView({ behavior: 'smooth' })
-                })
+                    inputRef.current.value = '';
+                    setShowSubmit(false);
+                    console.log('scrolling');
+                    dummy.current.scrollIntoView({ behavior: 'smooth' });
+                });
         }
     }
 
     async function getUserFromId(id) {
-        let userData
+        let userData;
         await databaseRef.child(`users/${id}`).once('value', (snap) => {
-            userData = snap.val()
-        })
-        return await userData
+            userData = snap.val();
+        });
+        return await userData;
     }
 
     async function loadUsersFromMessages(messages) {
-        let usersData = []
-        let ids = []
+        let usersData = [];
+        let ids = [];
         for (let message of messages) {
-            if (!ids.includes(message.authorId)) ids.push(message.authorId)
+            if (!ids.includes(message.authorId)) ids.push(message.authorId);
         }
         for (let id of ids) {
-            usersData.push(await getUserFromId(id))
+            usersData.push(await getUserFromId(id));
         }
-        return usersData
+        return usersData;
     }
 
     async function getRoomInfo() {
-        let roomData
+        let roomData;
         await databaseRef
             .child('chatRooms')
-            .once('value', (data) => (roomData = data.val()))
-        if (!(roomId in Object.keys(roomData))) return
-        return setRoomInfo(roomData[roomId])
+            .once('value', (data) => (roomData = data.val()));
+        if (!(roomId in Object.keys(roomData))) return;
+        return setRoomInfo(roomData[roomId]);
     }
     async function loadChat() {
         await databaseRef.child(`messages/${roomId}`).once('value', (snap) => {
-            var t0 = performance.now()
-            let messageList = []
-            let msgs = snap.val()
+            var t0 = performance.now();
+            let messageList = [];
+            let msgs = snap.val();
             if (msgs != null) {
                 for (let id of Object.keys(msgs)) {
-                    messageList.push(msgs[id])
+                    messageList.push(msgs[id]);
                 }
                 loadUsersFromMessages(messageList).then((profileList) => {
                     for (let profile of profileList) {
                         messageList = messageList.map((message) => {
                             if (message.authorId === profile.uid)
-                                message.profile = profile
-                            return message
-                        })
+                                message.profile = profile;
+                            return message;
+                        });
                     }
-                    setUsers([...profileList])
-                    setMessages([...messageList])
-                })
+                    setUsers([...profileList]);
+                    setMessages([...messageList]);
+                });
             }
-            var t1 = performance.now()
+            var t1 = performance.now();
             console.log(
                 'Call to render messages took ' + (t1 - t0) + ' milliseconds.'
-            )
-        })
+            );
+        });
     }
     function updateMessages() {
         // serious bug here. This doesnt get fired upon hosting new room, causing the messages sent not to be displayed
         // if somebody sends a message, and you refresh the page,  it gets displayed, but when you try to send a message
         // it doesnt load user profile to it. After refreshing the page works as intended. Probably something with
         // async fetching user Data. Look into it ASAP
-        let skipQuery = true
+        let skipQuery = true;
         databaseRef
             .child(`messages/${roomId}`)
             .endAt()
             .limitToLast(1)
             .on('child_added', (snap) => {
-                var t0 = performance.now()
+                var t0 = performance.now();
                 if (!loading && !skipQuery) {
-                    let msg = snap.val()
-                    let authorId = msg.authorId
-                    let userList = [...users]
+                    let msg = snap.val();
+                    let authorId = msg.authorId;
+                    let userList = [...users];
                     if (!userList.some((user) => user.uid === authorId)) {
                         Promise.resolve(getUserFromId(authorId)).then(
                             (newUser) => userList.push(newUser)
-                        )
+                        );
                     }
                     msg.profile = userList.filter(
                         (user) => user.uid === authorId
-                    )[0]
+                    )[0];
                     if (msg.profile) {
-                        let messageList = messages
-                        messageList.push(msg)
-                        setMessages([...messageList])
-                        setUsers([...userList])
+                        let messageList = messages;
+                        messageList.push(msg);
+                        setMessages([...messageList]);
+                        setUsers([...userList]);
                     }
                 }
-                skipQuery = false
-                var t1 = performance.now()
+                skipQuery = false;
+                var t1 = performance.now();
                 console.log(
                     'Call to update messages took ' +
                         (t1 - t0) +
                         ' milliseconds.'
-                )
-            })
+                );
+            });
     }
 
     useEffect(() => {
-        if (window.matchMedia('(min-width: 600px)').matches) setIsDesktop(true)
+        if (window.matchMedia('(min-width: 600px)').matches) setIsDesktop(true);
         // eslint-disable-next-line no-unused-vars
         Promise.all([getRoomInfo(), loadChat()]).then(() => {
-            setLoading(false)
-        })
+            setLoading(false);
+        });
 
         return () => {
-            console.log('returning')
+            console.log('returning');
             databaseRef
                 .child(`messages/${roomId}`)
                 .endAt()
                 .limitToLast(1)
-                .off('child_added')
-            databaseRef.child(`messages/${roomId}`).off('value')
+                .off('child_added');
+            databaseRef.child(`messages/${roomId}`).off('value');
             //probably safe to delete?
-            setRoomInfo(null)
-            setLoading(true)
-            setRoomInfo(null)
-            setUsers(null)
-            setMessages(null)
-            setScrolled(false)
-            setShowScrollButton(false)
-        }
-    }, [roomId])
+            setRoomInfo(null);
+            setLoading(true);
+            setRoomInfo(null);
+            setUsers(null);
+            setMessages(null);
+            setScrolled(false);
+            setShowScrollButton(false);
+        };
+    }, [roomId]);
 
     useEffect(() => {
-        console.log('using effect')
+        console.log('using effect');
         if (!loading) {
-            console.log('running function')
-            updateMessages()
+            console.log('running function');
+            updateMessages();
         }
-    }, [scrolled])
+    }, [scrolled]);
 
     return (
         <div className={'chatbox-container'}>
@@ -250,7 +251,7 @@ export default function ChatRoom() {
                     onLoad={() => scrollBottomAtStart()}
                     onScroll={() => handleScroll()}
                     onClick={() => {
-                        if (profileToShow) setProfileToShow(null)
+                        if (profileToShow) setProfileToShow(null);
                     }}
                 >
                     {messages &&
@@ -261,9 +262,9 @@ export default function ChatRoom() {
                             // Maps over array of messages in JSON format. Format messages differently for first, last,
                             // repeated and regular (one time) messages.
                             let isOwnMessage =
-                                message.authorId === currentUser.uid
-                            let profile
-                            profile = message.profile
+                                message.authorId === currentUser.uid;
+                            let profile;
+                            profile = message.profile;
 
                             if (
                                 index + 1 < messages.length &&
@@ -283,7 +284,7 @@ export default function ChatRoom() {
                                             message={message}
                                             profile={profile}
                                         />
-                                    )
+                                    );
                                 return (
                                     <RepeatedMessage
                                         key={message.uid}
@@ -291,7 +292,7 @@ export default function ChatRoom() {
                                         message={message}
                                         profile={profile}
                                     />
-                                )
+                                );
                             }
                             if (
                                 messages[index - 1] &&
@@ -306,7 +307,7 @@ export default function ChatRoom() {
                                         message={message}
                                         profile={profile}
                                     />
-                                )
+                                );
                             }
                             return (
                                 <SingleMessage
@@ -316,7 +317,7 @@ export default function ChatRoom() {
                                     message={message}
                                     profile={profile}
                                 />
-                            )
+                            );
                         })}
                     <div ref={dummy} />
                 </div>
@@ -413,5 +414,5 @@ export default function ChatRoom() {
                 />
             )}
         </div>
-    )
+    );
 }

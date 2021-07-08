@@ -1,48 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { database } from '../../firebase'
-import { useAuth } from '../../context/AuthContext'
-import '../../styles/FriendsList.css'
-import ArrowBackSvg from '../svgs/ArrowBackSvg'
-import CrossFriendSvg from '../svgs/CrossFriendSvg'
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { database } from '../../firebase';
+
+import { useAuth } from '../../context/AuthContext';
+import '../../styles/FriendsList.css';
+import ArrowBackSvg from '../svgs/ArrowBackSvg';
+import CrossFriendSvg from '../svgs/CrossFriendSvg';
 
 export default function FriendsList() {
-    const databaseRef = database.ref()
-    const history = useHistory()
-    const { currentUser } = useAuth()
-    const [friends, setFriends] = useState()
+    const databaseRef = database.ref();
+    const history = useHistory();
+    const { currentUser } = useAuth();
+    const [friends, setFriends] = useState();
 
     async function removeFriend(id) {
         await databaseRef
             .child(`users/${currentUser.uid}/friends/${id}`)
-            .remove()
-        await loadFriends()
+            .remove();
+        await loadFriends();
     }
 
     async function loadFriends() {
-        let friendsIds = []
-        let friendsData = []
+        let friendsIds = [];
+        let friendsData = [];
         await databaseRef
             .child(`users/${currentUser.uid}/friends`)
             .once('value', (snap) => {
-                let data = snap.val()
+                let data = snap.val();
                 if (data) {
-                    friendsIds.push(Object.keys(data))
-                    friendsIds = friendsIds.flat()
+                    friendsIds.push(Object.keys(data));
+                    friendsIds = friendsIds.flat();
                 }
-            })
+            });
         await databaseRef.child(`users/`).once('value', (snap) => {
-            let data = snap.val()
+            let data = snap.val();
             for (let friendId of friendsIds) {
-                friendsData.push(data[friendId])
+                friendsData.push(data[friendId]);
             }
-        })
-        setFriends(friendsData)
+        });
+        setFriends(friendsData);
     }
 
     useEffect(() => {
-        Promise.resolve(loadFriends())
-    }, [])
+        Promise.resolve(loadFriends());
+    }, []);
 
     return (
         <>
@@ -89,11 +90,11 @@ export default function FriendsList() {
                                         </button>
                                     </div>
                                 </div>
-                            )
+                            );
                         })}
                     </div>
                 </div>
             )}
         </>
-    )
+    );
 }
