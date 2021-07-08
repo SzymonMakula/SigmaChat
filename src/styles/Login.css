@@ -113,7 +113,6 @@
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
     .login-container {
-        background-image: url('index.jpg');
         background-size: 100%;
         display: flex;
         justify-content: center;
