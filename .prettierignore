@@ -1,0 +1,13 @@
+# Ignore artifacts:
+build
+public
+node_modules
+.firebase
+package.json
+package-lock.json
+.eslintrc.json
+.gitignore
+README.md
+.firebaserc
+.env.local
+

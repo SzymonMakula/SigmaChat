@@ -1,16 +1,16 @@
-.register-link{
+.register-link {
     margin-top: auto;
     margin-bottom: 1rem;
 }
 
-.register-link > a{
+.register-link > a {
     text-align: center;
     text-decoration: none;
     color: black;
     font-size: 0.9rem;
 }
 
-.login-container{
+.login-container {
     overflow: scroll;
     height: 100%;
     width: 100%;
@@ -20,7 +20,7 @@
     align-items: center;
 }
 
-.login-card.card{
+.login-card.card {
     height: 100%;
     flex: 1;
     display: flex;
@@ -28,7 +28,7 @@
     align-items: center;
     justify-content: start;
 }
-.login-image{
+.login-image {
     margin-bottom: 5%;
     margin-top: 10%;
     height: 25%;
@@ -37,11 +37,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
 }
-.login-image > svg {
+.login-dice {
+    animation: none;
     width: 10rem;
     height: 10rem;
+}
+.rotating-login-dice{
+    animation: shake 0.8s infinite;
 }
 
 .login-body {
@@ -51,7 +54,7 @@
     flex-direction: column;
 }
 
-.register-header:first-child{
+.register-header:first-child {
     margin-top: 0;
 }
 .login-body h2 {
@@ -80,7 +83,9 @@
     transition: 800ms ease;
 }
 
-.login-body button:hover, .login-body button:active, .login-body button:focus {
+.login-body button:hover,
+.login-body button:active,
+.login-body button:focus {
     text-decoration: none;
     background-color: white;
     color: limegreen;
@@ -92,12 +97,10 @@
     margin-bottom: 1rem;
 }
 
-.login-link > a{
+.login-link > a {
     text-decoration: none;
     color: black;
 }
-
-
 
 @keyframes shake {
     from {
@@ -106,23 +109,16 @@
     to {
         transform: rotateZ(360deg);
     }
-
 }
 
-
-
-
 @media only screen and (min-width: 600px) and (min-height: 400px) {
-
-
     .login-container {
-        background-image: url("index.jpg");
+        background-image: url('index.jpg');
         background-size: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
     }
-
 
     .login-card.card {
         flex: none;
@@ -146,7 +142,6 @@
         width: 50%;
     }
 
-
     .login-body {
         height: 100%;
         margin-right: 5rem;
@@ -155,7 +150,7 @@
         align-items: center;
         flex-direction: column;
     }
-    .register-header:first-child{
+    .register-header:first-child {
         margin-top: 7rem;
     }
 
@@ -172,39 +167,35 @@
         margin-bottom: 1rem;
     }
 
-
     .login-body button {
         margin-right: 2rem;
         margin-top: 2rem;
         border-radius: 3rem;
         height: 3rem;
     }
-    .login-body button:focus, .login-body button:hover {
+    .login-body button:focus,
+    .login-body button:hover {
         outline: none;
     }
-
-
 
     .login-link {
         margin-top: 8rem;
         margin-right: 2rem;
     }
 
-    .login-card .alert{
+    .login-card .alert {
         margin-right: 1rem;
         margin-left: 0.5rem;
     }
-    .register-link{
+    .register-link {
         margin-top: auto;
         margin-right: 3rem;
         margin-bottom: 1rem;
     }
 
-    .register-link > a{
+    .register-link > a {
         margin-top: auto;
         text-decoration: none;
         color: black;
     }
-
 }
-

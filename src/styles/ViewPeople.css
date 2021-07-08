@@ -1,18 +1,18 @@
-.chatters-list{
+.chatters-list {
     border-left: 0.2rem black solid;
 }
-.chatters-list > .nav-tab{
+.chatters-list > .nav-tab {
     height: 5.075rem;
     border-bottom: 0.12rem black solid;
 }
-.chatters-list > .column-container{
+.chatters-list > .column-container {
     align-items: flex-start;
     width: 100%;
     background-color: lightsteelblue;
     height: 6rem;
     padding-top: 1rem;
 }
-.chatter-cloud{
+.chatter-cloud {
     transition: 300ms ease-in-out;
     margin-bottom: 0.5rem;
     margin-left: 0.5rem;
@@ -24,16 +24,16 @@
     border: 0.1rem black solid;
     background-color: lightskyblue;
 }
-.chatters-list img{
+.chatters-list img {
     margin-left: 1rem;
     border-radius: 4rem;
     width: 4rem;
     height: 4rem;
 }
-.chatters-list span{
+.chatters-list span {
     margin-left: 1rem;
     font-size: 1.3rem;
 }
-.chatter-cloud:hover{
+.chatter-cloud:hover {
     background-color: navajowhite;
 }

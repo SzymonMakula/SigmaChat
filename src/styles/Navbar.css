@@ -1,15 +1,15 @@
-.fa-primary{
+.fa-primary {
     color: deeppink;
 }
-.fa-secondary{
+.fa-secondary {
     color: darkmagenta;
 }
-.fa-primary, .fa-secondary {
+.fa-primary,
+.fa-secondary {
     transition: var(--transition-speed);
 }
 
-
-.navbar{
+.navbar {
     transition: 300ms ease;
     padding: 0;
     position: relative;
@@ -19,7 +19,9 @@
     height: 10%;
     min-height: 10%;
     background: steelblue;
-
+}
+.grayed {
+    filter: grayscale(100%);
 }
 .navbar h2 {
     font-family: Sanchez;
@@ -40,11 +42,11 @@
     align-items: center;
 }
 
-.nav-item{
+.nav-item {
     width: 6rem;
     height: 100%;
 }
-.create-room-button{
+.create-room-button {
     color: white;
     background-color: steelblue;
     border-radius: 2.25rem;
@@ -57,9 +59,8 @@
     right: 0;
     margin-bottom: 5%;
     margin-right: 5%;
-
 }
-.create-room-button svg{
+.create-room-button svg {
     width: 2.5rem;
 }
 .create-room-button:hover {
@@ -68,9 +69,7 @@
     border: 0.2rem steelblue solid;
 }
 
-
-
-.nav-item button{
+.nav-item button {
     width: 100%;
     height: 100%;
     text-decoration: none;
@@ -80,11 +79,10 @@
     background: inherit;
 }
 
-
-.nav-item button:focus, .nav-item button:hover{
+.nav-item button:focus,
+.nav-item button:hover {
     color: white;
 }
-
 
 .nav-link svg {
     width: 2rem;
@@ -93,10 +91,7 @@
 }
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
-    .navbar-nav{
+    .navbar-nav {
         border-bottom: 0.2rem black solid;
     }
 }
-
-
-

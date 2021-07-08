@@ -1,10 +1,10 @@
-.main-menu{
+.main-menu {
     top: 0;
     left: 0;
     position: fixed;
     width: 0;
     z-index: 1;
-    background: linear-gradient(to top ,lightsteelblue, steelblue);;
+    background: linear-gradient(to top, lightsteelblue, steelblue);
     visibility: hidden;
     flex-direction: column;
     justify-content: start;
@@ -12,7 +12,19 @@
     height: 100%;
     border-right: 0.2rem dimgrey solid;
 }
-.profile-bar{
+.main-menu-open{
+    transition: 400ms ease-in-out;
+    visibility: visible;
+    width: 85%;
+    border-right-width: 0.2rem;
+}
+.main-menu-desktop{
+    width: 25%;
+}
+
+
+
+.profile-bar {
     border: 0 dimgrey solid;
     border-bottom-width: 0.2rem;
     height: 20%;
@@ -20,14 +32,14 @@
     display: flex;
     flex-direction: row;
 }
-.profile-bar  button{
+.profile-bar button {
     display: flex;
     overflow: hidden;
     width: 100%;
     border: none;
     background-color: inherit;
 }
-.profile-picture-frame{
+.profile-picture-frame {
     align-content: center;
     overflow: hidden;
     display: flex;
@@ -37,7 +49,7 @@
     width: 100%;
 }
 
-.profile-picture{
+.profile-picture {
     align-self: center;
     border-color: inherit;
     min-height: 6rem;
@@ -46,7 +58,7 @@
     background-size: 100%;
 }
 
-.profile-picture-frame h1{
+.profile-picture-frame h1 {
     position: relative;
     top: 38%;
     color: white;
@@ -60,15 +72,15 @@
     min-width: 12rem;
 }
 
-.menu-nav{
+.menu-nav {
     display: flex;
     flex-direction: column;
     background: whitesmoke;
     width: 100%;
     height: 80%;
-    flex:1;
+    flex: 1;
 }
-.button-row{
+.button-row {
     transition: 500ms ease;
     overflow: hidden;
     background: inherit;
@@ -80,7 +92,7 @@
     margin: 0;
     padding: 0;
 }
-.button-row svg{
+.button-row svg {
     color: steelblue;
     top: 50%;
     width: 3rem;
@@ -88,7 +100,7 @@
     min-height: 1.5rem;
     margin-left: 1rem;
 }
-.button-row span{
+.button-row span {
     font-family: Sanchez;
     top: 50%;
     font-size: 1.5rem;
@@ -99,10 +111,10 @@
     margin-left: 1.8rem;
 }
 
-.button-row:last-child{
+.button-row:last-child {
     margin-top: auto;
 }
-.button-row:hover{
+.button-row:hover {
     background: lightsteelblue;
 }
 
@@ -116,40 +128,36 @@
         height: 50rem;
         left: auto;
         top: auto;
-
     }
 
     .profile-picture-frame h1 {
         font-size: 2rem;
         margin-left: 1.5rem;
     }
-    .profile-picture{
+    .profile-picture {
         margin-left: 1rem;
         width: 7rem;
+        min-width: 7rem;
         height: 7rem;
     }
-    .profile-bar{
+    .profile-bar {
         transition: background-color 400ms ease-in-out;
         border-top-left-radius: 3rem;
     }
-    .profile-picture-frame:hover, .profile-picture-frame:focus, .profile-picture-frame{
+    .profile-picture-frame:hover,
+    .profile-picture-frame:focus,
+    .profile-picture-frame {
         border-top-left-radius: 3rem;
     }
 
-    .profile-bar:hover{
+    .profile-bar:hover {
         background-color: deepskyblue;
         filter: opacity(90%);
     }
-    .menu-nav{
+    .menu-nav {
         border-bottom-left-radius: 3rem;
     }
-    .menu-nav .button-row:last-child{;
+    .menu-nav .button-row:last-child {
         border-bottom-left-radius: 3rem;
     }
-
-
-
-
-
-
 }
