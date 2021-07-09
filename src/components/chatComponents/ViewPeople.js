@@ -13,7 +13,11 @@ export default function ViewPeople(props) {
 
     return (
         <>
-            <div className={'column-container chatters-list'}>
+            <div
+                className={
+                    'chatters-list w-100 h-100 flex-column align-items-center'
+                }
+            >
                 <div className={'nav-tab'}>
                     <h2 style={{ textAlign: 'left', marginLeft: '1rem' }}>
                         {'People Chatting'}
@@ -22,7 +26,6 @@ export default function ViewPeople(props) {
                 <div className={'column-container'}>
                     {users &&
                         users.map((user) => (
-                            // eslint-disable-next-line react/prop-types
                             <div
                                 key={user.uid}
                                 className={'chatter-cloud'}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, useHistory } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { useAuth } from '../context/AuthContext';
@@ -14,7 +14,6 @@ export default function Dashboard() {
     const databaseRef = database.ref();
     const { currentUser } = useAuth();
     const { isDesktop } = useApp();
-    const history = useHistory();
     const [isMenuGrayed, setMenuGrayed] = useState(false);
 
     async function firstTimeUpdate() {
@@ -34,13 +33,13 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
-        if (!currentUser.photoURL) firstTimeUpdate().catch((error) => error);
+        if (!currentUser.photoURL) firstTimeUpdate();
     }, []);
 
     return (
         <div className="overlay">
             {isDesktop ? (
-                <BrowserRouter basename={'/desktop'} history={history}>
+                <BrowserRouter basename={'/desktop'}>
                     <Navbar setMenuBlurred={setMenuGrayed} />
                     <div
                         className={classNames('main', {

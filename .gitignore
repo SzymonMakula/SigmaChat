@@ -12,6 +12,12 @@
 /build
 
 # misc
+firebase.json
+.firebase
+.eslintrc.json
+.firebaserc
+.prettierignore
+.prettierrc.json
 .idea
 .DS_Store
 .env.local
