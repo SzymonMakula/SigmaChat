@@ -12,7 +12,7 @@ export default function LastMessage(props) {
                           alignItems: 'flex-start',
                           marginBottom: '0.8rem',
                       }
-                    : { alignItems: 'flex-start', marginBottom: '0.8rem' }
+                    : { alignItems: 'flex-end', marginBottom: '0.8rem' }
             }
         >
             <div className={'chatbox-profile'}>

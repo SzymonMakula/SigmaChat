@@ -111,7 +111,6 @@
     height: 100%;
     flex-direction: column;
     display: flex;
-    flex: min-content;
 }
 
 .chatbox-cloud > span {
@@ -167,7 +166,7 @@
         width: 13%;
     }
     .chatbox .nav-tab h2 {
-        margin: 0;
+        margin: 0
     }
     .chatbox-main {
         overflow-x: hidden;
@@ -199,5 +198,8 @@
     }
     .chatbox-main {
         margin-top: 0;
+    }
+    .chatbox-container .loading-container{
+        left: 45%;
     }
 }

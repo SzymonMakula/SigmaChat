@@ -11,7 +11,7 @@ import FriendsList from '../profileComponents/FriendsList';
 export default function DesktopRoutes() {
     return (
         <Switch>
-            <Route path={'/chatRooms/:roomId'} component={ChatRoom} />
+            <Route exact path={'/chatRooms/:roomId'} component={ChatRoom} />
             <Route exact path={'/edit-profile'} component={EditProfile} />
             <Route
                 exact

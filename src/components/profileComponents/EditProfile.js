@@ -50,9 +50,7 @@ export default function EditProfile() {
         if (uploadFile) {
             let imageRef = storageRef.child(`images/${currentUser.uid}`);
             let uploadTask = await imageRef.put(uploadFile, null);
-            const imageUrl = await uploadTask.ref
-                .getDownloadURL()
-                .then((url) => url);
+            const imageUrl = await uploadTask.ref.getDownloadURL();
             setUserImage(imageUrl);
         }
         if (currentUser.displayName === name && !uploadFile && !bio) {
