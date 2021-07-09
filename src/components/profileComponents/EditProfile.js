@@ -82,7 +82,6 @@ export default function EditProfile() {
             setButtonActive(false);
             return setError(error.message);
         }
-
         setSuccess('Profile updated successfully.');
         setButtonActive(false);
         setLoading(false);

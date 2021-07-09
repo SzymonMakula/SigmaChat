@@ -3,7 +3,6 @@ import React from 'react';
 export default function CheckSvg() {
     return (
         <svg
-            style={{ width: '2rem' }}
             aria-hidden="true"
             focusable="false"
             data-prefix="fas"

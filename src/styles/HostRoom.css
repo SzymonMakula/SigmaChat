@@ -1,6 +1,14 @@
 .host-room > .nav-tab h2 {
     text-align: center;
 }
+.host-room > .nav-tab button:last-child{
+    margin-left: auto;
+}
+.host-room > .nav-tab button:last-child svg{
+    width: 2.5rem;
+    margin-right: 0.5rem;
+    margin-left: auto;
+}
 .main-column {
     font-family: Sanchez;
     display: flex;
