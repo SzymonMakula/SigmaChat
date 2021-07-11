@@ -16,12 +16,31 @@
     display: flex;
     align-items: center;
 }
-.column-container .nav-tab button svg {
+.column-container .nav-tab h2 {
+    margin-bottom: 0;
+}
+
+.column-container .nav-tab > button:first-child > svg {
     align-self: center;
     width: 50%;
     margin-left: 15%;
     height: 50%;
 }
+.logout-button  {
+    align-items: center;
+    width: 3rem;
+    display: flex;
+    justify-content: flex-end;
+}
+.logout-button > svg {
+    width: 3rem;
+    height: 2.2rem;
+}
+.bio-container {
+    margin-top: 1rem;
+}
+
+
 
 .column-container .nav-tab button {
     display: flex;
@@ -235,9 +254,6 @@
     .profile-edit .alert {
         margin: 0 1rem 0 1rem;
         width: auto;
-    }
-    .bio-container {
-        margin-top: 1rem;
     }
     .edit-picture-frame {
         height: 100%;

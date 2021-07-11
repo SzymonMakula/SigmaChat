@@ -112,6 +112,7 @@
 }
 
 @media only screen and (min-width: 600px) and (min-height: 400px) {
+
     .login-container {
         background-size: 100%;
         display: flex;
@@ -123,9 +124,9 @@
         flex: none;
         overflow: hidden;
         display: flex;
+        border: 0.15rem black solid;
         border-radius: 3rem;
         flex-direction: row;
-        border: none;
         height: 40rem;
         width: 60rem;
     }
@@ -167,7 +168,6 @@
     }
 
     .login-body button {
-        margin-right: 2rem;
         margin-top: 2rem;
         border-radius: 3rem;
         height: 3rem;

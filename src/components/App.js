@@ -23,6 +23,8 @@ function App() {
             <AppContext.Provider value={isDesktopProvider}>
                 <Router>
                     <Switch>
+                        <Route path="/signup" component={Signup} />
+                        <Route path="/login" component={Login} />
                         {isDesktopProvider.isDesktop && (
                             <PrivateRoute
                                 exact
@@ -31,8 +33,6 @@ function App() {
                             />
                         )}
                         <MobileRoutes />
-                        <Route path="/signup" component={Signup} />
-                        <Route path="/login" component={Login} />
                     </Switch>
                 </Router>
             </AppContext.Provider>

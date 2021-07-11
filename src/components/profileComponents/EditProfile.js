@@ -104,7 +104,11 @@ export default function EditProfile() {
                             <ArrowBackSvg />
                         </button>
                         <h2>{'Edit profile'}</h2>
-                        <button onClick={logout} style={{ marginLeft: 'auto' }}>
+                        <button
+                            className={'logout-button'}
+                            onClick={logout}
+                            style={{ marginLeft: 'auto' }}
+                        >
                             <LogoutSvg />
                             {isDesktop && (
                                 <span style={{ marginRight: '0.5rem' }}>
