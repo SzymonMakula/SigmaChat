@@ -42,7 +42,7 @@ export default function FriendsList() {
     }
 
     useEffect(() => {
-        Promise.resolve(loadFriends());
+        loadFriends();
     }, []);
 
     return (
