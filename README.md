@@ -7,4 +7,5 @@
 -responsive layout
 -desktop and mobile version
 
+Development version of the site is hosted at https://mychatappdev-29fb7.web.app/
 All svg graphics are taken from https://fontawesome.com/.
