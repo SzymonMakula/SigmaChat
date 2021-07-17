@@ -25,6 +25,7 @@ export default function SingleMessage(props) {
                         props.isOwnMessage
                             ? { textAlign: 'right', alignSelf: 'flex-end' }
                             : {
+                                  textAlign: 'left',
                                   background: 'papayawhip',
                                   alignSelf: 'flex-start',
                               }

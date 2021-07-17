@@ -29,7 +29,9 @@ export default function LastMessage(props) {
             <div className={'chatbox-cloud'}>
                 <span
                     style={
-                        props.isOwnMessage ? {} : { background: 'papayawhip' }
+                        props.isOwnMessage
+                            ? {}
+                            : { background: 'papayawhip', textAlign: 'left' }
                     }
                 >
                     {props.message.text}

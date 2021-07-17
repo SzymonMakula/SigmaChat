@@ -12,7 +12,9 @@ export default function FirstMessage(props) {
             <div className={'chatbox-cloud'}>
                 <span
                     style={
-                        props.isOwnMessage ? {} : { background: 'papayawhip' }
+                        props.isOwnMessage
+                            ? {}
+                            : { background: 'papayawhip', textAlign: 'left' }
                     }
                 >
                     <span>{props.profile.displayName}</span>
